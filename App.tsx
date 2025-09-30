@@ -10,6 +10,9 @@ import Sidebar from './components/Sidebar';
 import Header from './components/Header';
 import ProfileScreen from './components/ProfileScreen';
 import TestsScreen from './components/TestsScreen';
+import ChallengesScreen from './components/ChallengesScreen';
+import WalletScreen from './components/WalletScreen';
+import LeaderboardScreen from './components/LeaderboardScreen';
 
 const App: React.FC = () => {
   const [gameState, setGameState] = useState<GameState>(GameState.SubjectSelection);
@@ -133,6 +136,12 @@ const App: React.FC = () => {
         return <ProfileScreen />;
       case ActiveView.Tests:
         return <TestsScreen />;
+      case ActiveView.Challenges:
+        return <ChallengesScreen />;
+      case ActiveView.Wallet:
+        return <WalletScreen />;
+      case ActiveView.Leaderboard:
+        return <LeaderboardScreen />;
       default:
         return null;
     }

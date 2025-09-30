@@ -31,4 +31,7 @@ export enum ActiveView {
   Quizzes,
   Profile,
   Tests,
+  Challenges,
+  Wallet,
+  Leaderboard,
 }

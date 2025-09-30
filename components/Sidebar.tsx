@@ -8,7 +8,6 @@ interface SidebarProps {
 }
 
 const NavItem: React.FC<{
-  // Fix: Changed JSX.Element to React.ReactElement to resolve namespace issue.
   icon: React.ReactElement;
   label: string;
   isActive: boolean;
@@ -51,6 +50,24 @@ const Sidebar: React.FC<SidebarProps> = ({ activeView, setActiveView }) => {
           label="Tests"
           isActive={activeView === ActiveView.Tests}
           onClick={() => setActiveView(ActiveView.Tests)}
+        />
+         <NavItem 
+          icon={ICONS.CHALLENGES}
+          label="Challenges"
+          isActive={activeView === ActiveView.Challenges}
+          onClick={() => setActiveView(ActiveView.Challenges)}
+        />
+        <NavItem 
+          icon={ICONS.WALLET}
+          label="Wallet"
+          isActive={activeView === ActiveView.Wallet}
+          onClick={() => setActiveView(ActiveView.Wallet)}
+        />
+        <NavItem 
+          icon={ICONS.LEADERBOARD}
+          label="Leaderboard"
+          isActive={activeView === ActiveView.Leaderboard}
+          onClick={() => setActiveView(ActiveView.Leaderboard)}
         />
       </nav>
     </div>
