@@ -19,6 +19,19 @@ export interface Subject {
   quizzes: Quiz[];
 }
 
+export interface Test {
+  id: string;
+  title: string;
+  subjectId: string;
+  questions: Question[];
+}
+
+export interface DailyChallenge {
+    id: string;
+    title: string;
+    quiz: Quiz;
+}
+
 export enum GameState {
   SubjectSelection = 'subject_selection',
   QuizSelection = 'quiz_selection',
@@ -34,4 +47,16 @@ export enum ActiveView {
   Challenges,
   Wallet,
   Leaderboard,
+}
+
+export interface UserProfile {
+    name: string;
+    preferredTrade: string; // Corresponds to a subject ID
+}
+
+export interface LeaderboardEntry {
+    rank: number;
+    name: string;
+    score: number;
+    isCurrentUser: boolean;
 }

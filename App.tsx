@@ -1,6 +1,8 @@
 import React, { useState, useMemo } from 'react';
-import { GameState, Quiz, Subject, ActiveView, SubjectCategory } from './types';
+import { GameState, Quiz, Subject, ActiveView, SubjectCategory, UserProfile } from './types';
 import { subjects } from './data/quizzes';
+import { tests } from './data/tests';
+import { dailyChallenge } from './data/challenges';
 import SubjectSelectionScreen from './components/SubjectSelectionScreen';
 import QuizSelectionScreen from './components/QuizSelectionScreen';
 import QuizScreen from './components/QuizScreen';
@@ -23,6 +25,12 @@ const App: React.FC = () => {
 
   const [activeView, setActiveView] = useState<ActiveView>(ActiveView.Quizzes);
   const [subjectFilter, setSubjectFilter] = useState<SubjectCategory | 'All'>('All');
+  
+  const [userProfile, setUserProfile] = useState<UserProfile>({
+    name: 'Kwizera Alex',
+    preferredTrade: 'software-development',
+  });
+  const [walletBalance, setWalletBalance] = useState(1250);
 
   const selectedSubject = useMemo(() => {
     if (!selectedSubjectId) return null;
@@ -44,13 +52,34 @@ const App: React.FC = () => {
     setGameState(GameState.SubjectSelection);
   };
 
+  const startQuiz = (quiz: Quiz) => {
+    setCurrentQuiz(quiz);
+    setCurrentQuestionIndex(0);
+    setScore(0);
+    setGameState(GameState.Playing);
+    setActiveView(ActiveView.Quizzes);
+  };
+
   const handleSelectQuiz = (quizId: string) => {
     const quiz = selectedSubject?.quizzes.find(q => q.id === quizId);
     if (quiz) {
-      setCurrentQuiz(quiz);
-      setCurrentQuestionIndex(0);
-      setScore(0);
-      setGameState(GameState.Playing);
+      startQuiz(quiz);
+    }
+  };
+
+  const handleStartChallenge = () => {
+    startQuiz(dailyChallenge.quiz);
+  };
+
+  const handleStartTest = (testId: string) => {
+    const test = tests.find(t => t.id === testId);
+    if (test) {
+      const testAsQuiz: Quiz = {
+        id: test.id,
+        title: test.title,
+        questions: test.questions,
+      };
+      startQuiz(testAsQuiz);
     }
   };
   
@@ -68,6 +97,10 @@ const App: React.FC = () => {
   };
 
   const handleClaimPrize = () => {
+    // Award points only for perfect scores on regular quizzes
+    if (currentQuiz && score === currentQuiz.questions.length) {
+        setWalletBalance(prev => prev + 100);
+    }
     setGameState(GameState.Prize);
   };
 
@@ -121,7 +154,8 @@ const App: React.FC = () => {
           return null;
 
       case GameState.Prize:
-        return <PrizeScreen onRestart={resetToHome} />;
+        const wasPerfectScore = currentQuiz ? score === currentQuiz.questions.length : false;
+        return <PrizeScreen onRestart={resetToHome} pointsAwarded={wasPerfectScore ? 100 : 0} />;
 
       default:
         return null;
@@ -133,13 +167,13 @@ const App: React.FC = () => {
       case ActiveView.Quizzes:
         return renderQuizContent();
       case ActiveView.Profile:
-        return <ProfileScreen />;
+        return <ProfileScreen userProfile={userProfile} onUpdateProfile={setUserProfile} allTrades={subjects.filter(s => s.category === 'TVET')} />;
       case ActiveView.Tests:
-        return <TestsScreen />;
+        return <TestsScreen userPreferredTradeId={userProfile.preferredTrade} onStartTest={handleStartTest} />;
       case ActiveView.Challenges:
-        return <ChallengesScreen />;
+        return <ChallengesScreen onStartChallenge={handleStartChallenge} />;
       case ActiveView.Wallet:
-        return <WalletScreen />;
+        return <WalletScreen balance={walletBalance} />;
       case ActiveView.Leaderboard:
         return <LeaderboardScreen />;
       default:
