@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Subject, Question } from '../types';
 import { getExplanation } from '../services/geminiService';
@@ -61,8 +62,8 @@ const SubjectReview: React.FC<{subject: Subject, onBack: () => void, bookmarkedQ
                 </div>
                 <div className="flex items-center gap-4">
                     <div className="bg-gray-800 p-1 rounded-lg flex space-x-1">
-                        <button onClick={() => setViewMode('list')} className={`px-3 py-1 text-sm rounded-md ${viewMode === 'list' ? 'bg-purple-600' : ''}`}>List</button>
-                        <button onClick={() => setViewMode('flashcard')} className={`px-3 py-1 text-sm rounded-md ${viewMode === 'flashcard' ? 'bg-purple-600' : ''}`}>Flashcard</button>
+                        <button onClick={() => setViewMode('list')} className={`px-3 py-1 text-sm rounded-md ${viewMode === 'list' ? 'bg-purple-600 text-white' : 'text-gray-700'}`}>List</button>
+                        <button onClick={() => setViewMode('flashcard')} className={`px-3 py-1 text-sm rounded-md ${viewMode === 'flashcard' ? 'bg-purple-600 text-white' : 'text-gray-700'}`}>Flashcard</button>
                     </div>
                     <button onClick={onBack} className="px-4 py-2 bg-transparent border border-purple-500 text-purple-400 font-semibold rounded-full hover:bg-purple-500 hover:text-white transition-colors duration-300">
                         Back
@@ -70,19 +71,23 @@ const SubjectReview: React.FC<{subject: Subject, onBack: () => void, bookmarkedQ
                 </div>
             </div>
 
-            {viewMode === 'list' ? (
-                <div className="space-y-6">
-                    {allQuestions.map((question) => <QuestionCard key={question.id} question={question} isBookmarked={bookmarkedQuestionIds.has(question.id)} onBookmarkToggle={onBookmarkToggle} />)}
-                </div>
-            ) : (
-                <div className="flex flex-col items-center">
-                    <Flashcard question={allQuestions[currentFlashcard]} isBookmarked={bookmarkedQuestionIds.has(allQuestions[currentFlashcard].id)} onBookmarkToggle={onBookmarkToggle} />
-                    <div className="flex items-center gap-4 mt-6">
-                        <button onClick={() => setCurrentFlashcard(p => Math.max(0, p - 1))} disabled={currentFlashcard === 0} className="px-4 py-2 bg-gray-700 rounded-md disabled:opacity-50">Previous</button>
-                        <span className="text-gray-400">{currentFlashcard + 1} / {allQuestions.length}</span>
-                        <button onClick={() => setCurrentFlashcard(p => Math.min(allQuestions.length - 1, p + 1))} disabled={currentFlashcard === allQuestions.length - 1} className="px-4 py-2 bg-gray-700 rounded-md disabled:opacity-50">Next</button>
+            {allQuestions.length > 0 ? (
+                viewMode === 'list' ? (
+                    <div className="space-y-6">
+                        {allQuestions.map((question) => <QuestionCard key={question.id} question={question} isBookmarked={bookmarkedQuestionIds.has(question.id)} onBookmarkToggle={onBookmarkToggle} />)}
                     </div>
-                </div>
+                ) : (
+                    <div className="flex flex-col items-center">
+                        <Flashcard question={allQuestions[currentFlashcard]} isBookmarked={bookmarkedQuestionIds.has(allQuestions[currentFlashcard].id)} onBookmarkToggle={onBookmarkToggle} />
+                        <div className="flex items-center gap-4 mt-6">
+                            <button onClick={() => setCurrentFlashcard(p => Math.max(0, p - 1))} disabled={currentFlashcard === 0} className="px-4 py-2 bg-gray-700 rounded-md disabled:opacity-50">Previous</button>
+                            <span className="text-gray-400">{currentFlashcard + 1} / {allQuestions.length}</span>
+                            <button onClick={() => setCurrentFlashcard(p => Math.min(allQuestions.length - 1, p + 1))} disabled={currentFlashcard === allQuestions.length - 1} className="px-4 py-2 bg-gray-700 rounded-md disabled:opacity-50">Next</button>
+                        </div>
+                    </div>
+                )
+            ) : (
+                <p className="text-center text-gray-400">No questions available in this subject yet.</p>
             )}
         </div>
     )

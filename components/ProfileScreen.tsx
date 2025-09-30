@@ -1,3 +1,5 @@
+
+
 import React, { useState } from 'react';
 // FIX: Import Quiz and allAchievements
 import { UserProfile, Subject, UserProgress, Achievement, Quiz } from '../types';
@@ -94,7 +96,8 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ userProfile, onUpdateProf
     const totalPercentage = progressEntriesWithQuizData.reduce((acc, [quizId, progressData]) => {
         const quiz = quizzesMap.get(quizId)!;
         if (quiz.questions.length > 0) {
-            const percentage = (progressData.score / quiz.questions.length) * 100;
+            // FIX: Add type assertion because Object.entries can infer the value as 'unknown'.
+            const percentage = ((progressData as { score: number }).score / quiz.questions.length) * 100;
             return acc + percentage;
         }
         return acc;

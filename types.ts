@@ -1,5 +1,6 @@
+
 export interface Question {
-  id: string; // Unique identifier, e.g., "quiz-id-index"
+  id: string;
   questionText: string;
   options: string[];
   correctAnswerIndex: number;
@@ -11,20 +12,63 @@ export interface Quiz {
   questions: Question[];
 }
 
-export type SubjectCategory = 'General' | 'TVET';
+export interface Test extends Quiz {
+    subjectId: string;
+}
 
 export interface Subject {
   id: string;
   name: string;
-  category: SubjectCategory;
+  category: 'General' | 'TVET';
   quizzes: Quiz[];
 }
 
-export interface Test {
-  id:string;
-  title: string;
-  subjectId: string;
-  questions: Question[];
+export interface UserProfile {
+    name: string;
+    avatar: string; // key for AVATARS object
+    preferredTrade: string; // subjectId
+    bio: string;
+}
+
+export interface UserProgress {
+    [quizId: string]: {
+        score: number;
+        date: string; // ISO string
+    }
+}
+
+export interface Achievement {
+    id: string;
+    name: string;
+    description: string;
+    icon: string; // emoji
+}
+
+export enum ActiveView {
+    Quizzes = 'Quizzes',
+    Profile = 'Profile',
+    Tests = 'Tests',
+    Challenges = 'Challenges',
+    Wallet = 'Wallet',
+    Leaderboard = 'Leaderboard',
+    Study = 'Study',
+    Bookmarks = 'Bookmarks',
+    Chatbot = 'Chatbot',
+}
+
+export interface Transaction {
+    id: string;
+    date: string; // ISO string
+    description: string;
+    amount: number;
+}
+
+export interface LeaderboardEntry {
+    rank: number;
+    name: string;
+    score: number;
+    avatar: string;
+    isCurrentUser: boolean;
 }
 
 export interface DailyChallenge {
@@ -33,59 +77,9 @@ export interface DailyChallenge {
     quiz: Quiz;
 }
 
-export enum GameState {
-  SubjectSelection = 'subject_selection',
-  QuizSelection = 'quiz_selection',
-  Playing = 'playing',
-  Finished = 'finished',
-  Prize = 'prize',
-}
-
-export enum ActiveView {
-  Quizzes,
-  Profile,
-  Tests,
-  Challenges,
-  Wallet,
-  Leaderboard,
-  Study,
-  Bookmarks,
-  Chatbot,
-}
-
-export interface UserProfile {
-    name: string;
-    bio: string;
-    avatar: string; // e.g., 'avatar1', 'avatar2'
-    preferredTrade: string; // Corresponds to a subject ID
-    achievements: string[]; // IDs of unlocked achievements
-}
-
-export interface UserProgress {
-    [quizId: string]: {
-        score: number;
-        date: string; // ISO date string
-    }
-}
-
-export interface Achievement {
+export interface Notification {
     id: string;
-    name: string;
-    description: string;
-    icon: '🏆' | '🥇' | '🧠' | '🔥' | '📚' | '⭐️';
-}
-
-export interface Transaction {
-    id: number;
-    date: string; // ISO date string
-    description: string;
-    amount: number; // Can be positive or negative
-}
-
-export interface LeaderboardEntry {
-    rank: number;
-    name: string;
-    score: number;
-    avatar: string; // e.g., 'avatar1', 'avatar2'
-    isCurrentUser: boolean;
+    message: string;
+    date: string; // ISO string
+    read: boolean;
 }
