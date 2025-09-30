@@ -17,6 +17,18 @@ export const tests: Test[] = [
         ]
     },
     {
+        id: 'test-ict-1',
+        title: 'ICT Essentials Exam',
+        subjectId: 'ict',
+        questions: [
+            { questionText: 'Which of these components provides short-term, volatile memory for a computer?', options: ['CPU', 'SSD', 'HDD', 'RAM'], correctAnswerIndex: 3},
+            { questionText: 'What is the primary function of an Operating System?', options: ['To browse the internet', 'To create documents', 'To manage computer hardware and software resources', 'To protect against viruses'], correctAnswerIndex: 2},
+            { questionText: 'What does "URL" stand for?', options: ['Universal Resource Link', 'Uniform Resource Locator', 'Universal Reference Locator', 'Uniform Resource Link'], correctAnswerIndex: 1},
+            { questionText: 'Which of the following is a type of malware?', options: ['Firewall', 'Router', 'Ransomware', 'Browser'], correctAnswerIndex: 2},
+            { questionText: 'The main circuit board in a computer that connects all components is called the:', options: ['CPU', 'RAM chip', 'Motherboard', 'Graphics Card'], correctAnswerIndex: 2},
+        ]
+    },
+    {
         id: 'test-net-1',
         title: 'Certification Test: Networking Basics',
         subjectId: 'networking',

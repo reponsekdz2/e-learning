@@ -16,7 +16,8 @@ export const subjects: Subject[] = [
           { questionText: '"Gukubita agatoki ku kandi" bivuga iki?', options: ['Kurwana', 'Kwishima cyane', 'Kubabara', 'Gukina'], correctAnswerIndex: 1},
           { questionText: 'Iyo umuntu "yariye karungu" aba ameze ate?', options: ['Yishimye', 'Arakaye cyane', 'Arwaye', 'Asonje'], correctAnswerIndex: 1},
           { questionText: 'Iyo bavuga ngo "Amazi si ya yandi" baba bashaka kuvuga iki?', options: ['Amazi yarahindutse', 'Ibintu byahindutse, si nkuko byari bimeze', 'Amazi yaranduye', 'Hari andi mazi mashya'], correctAnswerIndex: 1 },
-          { questionText: '"Guca inka amabere" bisobanuye?', options: ['Gukama inka nabi', 'Kwica inka', 'Gukora igikorwa kibi cyane ku muntu wagufashije', 'Kuvuna amabere y\'inka'], correctAnswerIndex: 2 }
+          { questionText: '"Guca inka amabere" bisobanuye?', options: ['Gukama inka nabi', 'Kwica inka', 'Gukora igikorwa kibi cyane ku muntu wagufashije', 'Kuvuna amabere y\'inka'], correctAnswerIndex: 2 },
+          { questionText: 'Iyo umuntu "yicaye ku gutwi k\'ingoma" aba ari he?', options: ['Kure y\'abandi', 'Ahantu hihishe', 'Ahantu heza cyane kandi hatekanye', 'Mu ngoma'], correctAnswerIndex: 2}
         ]
       }
     ]
@@ -35,7 +36,9 @@ export const subjects: Subject[] = [
           { questionText: 'Choose the correct sentence: ', options: ['They is going to the market.', 'They are going to the market.', 'They am going to the market.', 'They was going to the market.'], correctAnswerIndex: 1},
           { questionText: 'An antonym for "brave" is:', options: ['Heroic', 'Fearless', 'Cowardly', 'Strong'], correctAnswerIndex: 2},
           { questionText: 'Identify the adjective in the following sentence: "The quick brown fox jumps over the lazy dog."', options: ['jumps', 'quick', 'over', 'fox'], correctAnswerIndex: 1},
-          { questionText: 'Which tense is used in this sentence: "I will be studying for my exam tomorrow."', options: ['Present Continuous', 'Past Perfect', 'Future Continuous', 'Present Perfect'], correctAnswerIndex: 2}
+          { questionText: 'Which tense is used in this sentence: "I will be studying for my exam tomorrow."', options: ['Present Continuous', 'Past Perfect', 'Future Continuous', 'Present Perfect'], correctAnswerIndex: 2},
+          { questionText: 'She has been working here ___ 2015.', options: ['for', 'since', 'at', 'in'], correctAnswerIndex: 1},
+          { questionText: 'Choose the correct spelling:', options: ['Necessery', 'Neccessary', 'Necessary', 'Necesary'], correctAnswerIndex: 2}
         ]
       }
     ]
@@ -71,7 +74,8 @@ export const subjects: Subject[] = [
           { questionText: 'How do you say "Hello" to a group of people?', options: ['Jambo', 'Mambo', 'Hujambo', 'Habari'], correctAnswerIndex: 1 },
           { questionText: 'What is "Asante" in English?', options: ['Sorry', 'Please', 'Thank you', 'Welcome'], correctAnswerIndex: 2 },
           { questionText: 'The word "Mwalimu" means:', options: ['Student', 'Doctor', 'Teacher', 'Driver'], correctAnswerIndex: 2},
-          { questionText: 'How do you say "Goodbye"?', options: ['Karibu', 'Kwaheri', 'Ndiyo', 'Hapana'], correctAnswerIndex: 1}
+          { questionText: 'How do you say "Goodbye"?', options: ['Karibu', 'Kwaheri', 'Ndiyo', 'Hapana'], correctAnswerIndex: 1},
+          { questionText: 'What is "Maji" in English?', options: ['Food', 'Water', 'Fire', 'House'], correctAnswerIndex: 1}
         ]
       }
     ]
@@ -148,7 +152,8 @@ export const subjects: Subject[] = [
           { questionText: 'What is the area of a circle with a radius of 5 units?', options: ['10π', '25π', '5π', '100π'], correctAnswerIndex: 1},
           { questionText: 'How many degrees are in a right angle?', options: ['45', '90', '180', '360'], correctAnswerIndex: 1},
           { questionText: 'What is the value of 2 to the power of 5?', options: ['10', '25', '32', '16'], correctAnswerIndex: 2},
-          { questionText: 'What is the next prime number after 11?', options: ['12', '13', '14', '15'], correctAnswerIndex: 1}
+          { questionText: 'What is the next prime number after 11?', options: ['12', '13', '14', '15'], correctAnswerIndex: 1},
+          { questionText: 'Solve for x: 3x - 4 = 11', options: ['3', '4', '5', '6'], correctAnswerIndex: 2}
         ]
       }
     ]
@@ -165,7 +170,8 @@ export const subjects: Subject[] = [
           { questionText: 'What is a business plan?', options: ['A financial statement', 'A marketing brochure', 'A document outlining business goals and how to achieve them', 'A list of employees'], correctAnswerIndex: 2 },
           { questionText: 'What does SWOT analysis stand for?', options: ['Sales, Weaknesses, Opportunities, Threats', 'Strengths, Weaknesses, Opportunities, Threats', 'Strengths, Work, Operations, Tasks', 'Sales, Work, Opportunities, Tasks'], correctAnswerIndex: 1},
           { questionText: 'The money used to start a business is called:', options: ['Profit', 'Revenue', 'Capital', 'Debt'], correctAnswerIndex: 2},
-          { questionText: 'Who is a person who organizes and operates a business, taking on greater than normal financial risks?', options: ['An Employee', 'A Manager', 'A Shareholder', 'An Entrepreneur'], correctAnswerIndex: 3}
+          { questionText: 'Who is a person who organizes and operates a business, taking on greater than normal financial risks?', options: ['An Employee', 'A Manager', 'A Shareholder', 'An Entrepreneur'], correctAnswerIndex: 3},
+          { questionText: 'What is a target market?', options: ['A physical place to sell goods', 'All possible customers', 'A specific group of consumers a company aims to sell its products to', 'The company\'s marketing team'], correctAnswerIndex: 2}
         ]
       }
     ]
@@ -220,7 +226,33 @@ export const subjects: Subject[] = [
       }
     ]
   },
-
+  {
+    id: 'ict',
+    name: 'ICT',
+    category: 'General',
+    quizzes: [
+      {
+        id: 'ict-1',
+        title: 'Computer Hardware',
+        questions: [
+          { questionText: 'Which of these is an input device?', options: ['Monitor', 'Printer', 'Speakers', 'Mouse'], correctAnswerIndex: 3},
+          { questionText: 'What does SSD stand for in the context of computer storage?', options: ['Solid State Drive', 'Super Storage Device', 'System Software Disk', 'Secure Socket Drive'], correctAnswerIndex: 0},
+          { questionText: 'Which component is responsible for processing graphics and video output?', options: ['CPU', 'RAM', 'GPU (Graphics Processing Unit)', 'Motherboard'], correctAnswerIndex: 2},
+          { questionText: 'Which of these is NOT a type of computer port?', options: ['USB', 'HDMI', 'Ethernet', 'CPU'], correctAnswerIndex: 3},
+        ]
+      },
+      {
+        id: 'ict-2',
+        title: 'Software & Operating Systems',
+        questions: [
+          { questionText: 'Which of the following is an example of an Operating System?', options: ['Microsoft Word', 'Google Chrome', 'Windows 11', 'Adobe Photoshop'], correctAnswerIndex: 2},
+          { questionText: 'What is the difference between system software and application software?', options: ['There is no difference', 'System software runs the computer, application software performs specific user tasks', 'Application software is free, system software is not', 'System software is for servers, application software is for desktops'], correctAnswerIndex: 1},
+          { questionText: 'What does ".pdf" file extension usually stand for?', options: ['Picture Document File', 'Portable Document Format', 'Personal Data File', 'Printed Document Form'], correctAnswerIndex: 1},
+          { questionText: 'What is "cloud computing"?', options: ['Storing data on your local hard drive', 'Using a network of remote servers hosted on the Internet to store, manage, and process data', 'A type of weather forecasting software', 'A new type of computer monitor'], correctAnswerIndex: 1}
+        ]
+      }
+    ]
+  },
   // TVET Subjects
   {
     id: 'software-development',
@@ -238,6 +270,18 @@ export const subjects: Subject[] = [
           { questionText: 'Which keyword is used to declare a constant variable in JavaScript?', options: ['var', 'let', 'const', 'define'], correctAnswerIndex: 2 },
           { questionText: 'What is the purpose of a `<div>` tag?', options: ['To create a hyperlink', 'To define a division or a section', 'To display an image', 'To make text bold'], correctAnswerIndex: 1 },
           { questionText: 'In JavaScript, how do you call a function named "myFunction"?', options: ['call function myFunction()', 'myFunction()', 'call myFunction()', 'execute myFunction()'], correctAnswerIndex: 1 },
+          { questionText: 'Which version control system is most commonly used by developers?', options: ['SVN', 'Mercurial', 'Git', 'CVS'], correctAnswerIndex: 2}
+        ]
+      },
+      {
+        id: 'sd-2',
+        title: 'JavaScript & React',
+        questions: [
+            { questionText: 'What is the purpose of the `useState` hook in React?', options: ['To fetch data from an API', 'To add stateful logic to function components', 'To perform side effects', 'To create a new component'], correctAnswerIndex: 1},
+            { questionText: 'Which JavaScript array method creates a new array with all elements that pass the test implemented by the provided function?', options: ['.map()', '.forEach()', '.filter()', '.reduce()'], correctAnswerIndex: 2},
+            { questionText: 'What is JSX?', options: ['A templating engine for JavaScript', 'A JavaScript syntax extension for writing HTML-like code', 'A CSS preprocessor', 'A type of database'], correctAnswerIndex: 1},
+            { questionText: 'How do you pass data from a parent component to a child component in React?', options: ['Using state', 'Using context', 'Using props', 'Using Redux'], correctAnswerIndex: 2},
+            { questionText: 'What does the `useEffect` hook do?', options: ['It lets you perform side effects in function components', 'It manages component state', 'It defines the component\'s structure', 'It handles user events'], correctAnswerIndex: 0}
         ]
       }
     ]
@@ -274,6 +318,17 @@ export const subjects: Subject[] = [
           { questionText: 'Which of the following is a private IP address?', options: ['127.0.0.1', '8.8.8.8', '192.168.1.1', '208.67.222.222'], correctAnswerIndex: 2},
           { questionText: 'What is a firewall used for?', options: ['To increase internet speed', 'To monitor and control network traffic', 'To store passwords', 'To connect to a printer'], correctAnswerIndex: 1},
           { questionText: 'What does "LAN" stand for?', options: ['Large Area Network', 'Local Access Network', 'Local Area Network', 'Long Access Network'], correctAnswerIndex: 2},
+          { questionText: 'Which protocol provides reliable, connection-oriented data transmission?', options: ['UDP', 'IP', 'TCP', 'HTTP'], correctAnswerIndex: 2}
+        ]
+      },
+      {
+        id: 'net-2',
+        title: 'Cybersecurity Basics',
+        questions: [
+            { questionText: 'What is phishing?', options: ['A type of computer hardware', 'A method of catching fish', 'An attempt to trick someone into revealing sensitive information', 'A type of antivirus software'], correctAnswerIndex: 2},
+            { questionText: 'What is the most important feature of a strong password?', options: ['It is easy to remember, like "123456"', 'It is the name of your pet', 'It is long and includes a mix of upper/lowercase letters, numbers, and symbols', 'It is written down on a sticky note'], correctAnswerIndex: 2},
+            { questionText: 'What is "malware"?', options: ['A type of network cable', 'Software designed to disrupt, damage, or gain unauthorized access to a computer system', 'The main component of a firewall', 'A secure website protocol'], correctAnswerIndex: 1},
+            { questionText: 'What is Two-Factor Authentication (2FA)?', options: ['Using two different passwords', 'A security process requiring two different methods of identification', 'A type of computer virus', 'An internet speed booster'], correctAnswerIndex: 1},
         ]
       }
     ]
@@ -425,6 +480,7 @@ export const subjects: Subject[] = [
           { questionText: 'What is the primary function of a car\'s braking system?', options: ['To make the car go faster', 'To convert kinetic energy into heat', 'To cool the engine', 'To charge the battery'], correctAnswerIndex: 1},
           { questionText: 'What does the alternator do?', options: ['Starts the car', 'Charges the battery and powers the electrical system', 'Cools the engine', 'Filters the fuel'], correctAnswerIndex: 1},
           { questionText: 'What is the purpose of engine oil?', options: ['To clean the fuel', 'To cool the car interior', 'To lubricate moving parts and reduce friction', 'To power the radio'], correctAnswerIndex: 2},
+          { questionText: 'What does a yellow "Check Engine" light on the dashboard typically mean?', options: ['The car is out of fuel', 'The engine has detected a potential problem', 'It is time for an oil change', 'A tire has low pressure'], correctAnswerIndex: 1},
         ]
       }
     ]
@@ -568,6 +624,7 @@ export const subjects: Subject[] = [
           { questionText: 'What is the French term for finely chopped vegetables (onion, celery, carrot) used as a base for stocks and sauces?', options: ['Mirepoix', 'Roux', 'Consommé', 'Julienne'], correctAnswerIndex: 0 },
           { questionText: 'What is the temperature danger zone where bacteria grow rapidly?', options: ['0°C - 20°C', '5°C - 63°C', '70°C - 100°C', 'Below 0°C'], correctAnswerIndex: 1},
           { questionText: 'What does it mean to "blanch" a vegetable?', options: ['To cook it slowly in fat', 'To grill it over high heat', 'To scald it in boiling water briefly, then plunge into cold water', 'To chop it into very small pieces'], correctAnswerIndex: 2},
+          { questionText: 'Which of the "mother sauces" is a white sauce made with milk and a white roux?', options: ['Hollandaise', 'Béchamel', 'Espagnole', 'Velouté'], correctAnswerIndex: 1}
         ]
       }
     ]

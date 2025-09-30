@@ -68,13 +68,6 @@ const App: React.FC = () => {
     setActiveView(ActiveView.Quizzes);
   };
 
-  const handleSelectQuiz = (quizId: string) => {
-    const quiz = selectedSubject?.quizzes.find(q => q.id === quizId);
-    if (quiz) {
-      startQuiz(quiz);
-    }
-  };
-
   const handleStartChallenge = () => {
     startQuiz(dailyChallenge.quiz);
   };
@@ -131,7 +124,7 @@ const App: React.FC = () => {
       
       case GameState.QuizSelection:
         if (selectedSubject) {
-          return <QuizSelectionScreen subject={selectedSubject} onSelectQuiz={handleSelectQuiz} onBack={handleBackToSubjects} />;
+          return <QuizSelectionScreen subject={selectedSubject} onStartQuiz={startQuiz} onBack={handleBackToSubjects} />;
         }
         return null; 
 
