@@ -69,6 +69,12 @@ const Sidebar: React.FC<SidebarProps> = ({ activeView, setActiveView }) => {
           isActive={activeView === ActiveView.Leaderboard}
           onClick={() => setActiveView(ActiveView.Leaderboard)}
         />
+        <NavItem 
+          icon={ICONS.STUDY}
+          label="Study Mode"
+          isActive={activeView === ActiveView.Study}
+          onClick={() => setActiveView(ActiveView.Study)}
+        />
       </nav>
     </div>
   );

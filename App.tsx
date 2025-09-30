@@ -15,6 +15,7 @@ import TestsScreen from './components/TestsScreen';
 import ChallengesScreen from './components/ChallengesScreen';
 import WalletScreen from './components/WalletScreen';
 import LeaderboardScreen from './components/LeaderboardScreen';
+import StudyModeScreen from './components/StudyModeScreen';
 
 const App: React.FC = () => {
   const [gameState, setGameState] = useState<GameState>(GameState.SubjectSelection);
@@ -117,6 +118,11 @@ const App: React.FC = () => {
     setSubjectFilter('All');
   }
 
+  const handleRedeemPoints = (amount: number) => {
+    setWalletBalance(prev => prev - amount);
+    // In a real app, this would also trigger an API call to record the transaction.
+  };
+
   const renderQuizContent = () => {
     switch (gameState) {
       case GameState.SubjectSelection:
@@ -174,9 +180,11 @@ const App: React.FC = () => {
       case ActiveView.Challenges:
         return <ChallengesScreen dailyChallenge={dailyChallenge} onStartChallenge={handleStartChallenge} />;
       case ActiveView.Wallet:
-        return <WalletScreen balance={walletBalance} />;
+        return <WalletScreen balance={walletBalance} onRedeem={handleRedeemPoints} />;
       case ActiveView.Leaderboard:
         return <LeaderboardScreen />;
+      case ActiveView.Study:
+        return <StudyModeScreen subjects={subjects} />;
       default:
         return null;
     }

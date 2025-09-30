@@ -47,6 +47,7 @@ export enum ActiveView {
   Challenges,
   Wallet,
   Leaderboard,
+  Study,
 }
 
 export interface UserProfile {
