@@ -126,7 +126,12 @@ const App: React.FC = () => {
   const renderQuizContent = () => {
     switch (gameState) {
       case GameState.SubjectSelection:
-        return <SubjectSelectionScreen subjects={filteredSubjects} onSelectSubject={handleSelectSubject} />;
+        return <SubjectSelectionScreen
+                    subjects={filteredSubjects}
+                    onSelectSubject={handleSelectSubject}
+                    activeFilter={subjectFilter}
+                    setFilter={setSubjectFilter}
+                />;
       
       case GameState.QuizSelection:
         if (selectedSubject) {
@@ -194,9 +199,7 @@ const App: React.FC = () => {
     <div className="min-h-screen bg-gray-900 text-white">
       <Sidebar activeView={activeView} setActiveView={setActiveView} />
       <div className="ml-64 flex flex-col h-screen">
-        {activeView === ActiveView.Quizzes && gameState === GameState.SubjectSelection && (
-          <Header activeFilter={subjectFilter} setFilter={setSubjectFilter} />
-        )}
+        <Header userProfile={userProfile} />
         <main className="flex-1 flex items-center justify-center p-4 overflow-y-auto">
           <div className="w-full max-w-4xl">
             {renderActiveView()}
