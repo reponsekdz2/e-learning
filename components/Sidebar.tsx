@@ -5,6 +5,8 @@ import { ICONS } from '../constants';
 interface SidebarProps {
   activeView: ActiveView;
   setActiveView: (view: ActiveView) => void;
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
 }
 
 const NavItem: React.FC<{
@@ -25,70 +27,88 @@ const NavItem: React.FC<{
   );
 };
 
-const Sidebar: React.FC<SidebarProps> = ({ activeView, setActiveView }) => {
+const Sidebar: React.FC<SidebarProps> = ({ activeView, setActiveView, isOpen, setIsOpen }) => {
+  const sidebarClasses = `
+    w-64 bg-gray-800 h-screen p-4 flex flex-col border-r border-gray-700
+    fixed top-0 left-0 z-40
+    transform transition-transform duration-300 ease-in-out
+    ${isOpen ? 'translate-x-0' : '-translate-x-full'}
+    lg:translate-x-0
+  `;
+  
   return (
-    <div className="w-64 bg-gray-800 h-screen p-4 flex flex-col border-r border-gray-700 fixed top-0 left-0">
-      <div className="mb-8 text-center">
-        <h1 className="text-2xl font-bold text-white">Gemini Genius</h1>
-        <p className="text-sm text-gray-400">Rwanda Edition</p>
+    <>
+      {/* Overlay for mobile */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"
+          onClick={() => setIsOpen(false)}
+        ></div>
+      )}
+
+      <div className={sidebarClasses}>
+        <div className="mb-8 text-center">
+          <h1 className="text-2xl font-bold text-white">Gemini Genius</h1>
+          <p className="text-sm text-gray-400">Rwanda Edition</p>
+        </div>
+        <nav className="flex flex-col space-y-2">
+          <NavItem 
+            icon={ICONS.QUIZZES}
+            label="Quizzes"
+            isActive={activeView === ActiveView.Quizzes}
+            onClick={() => setActiveView(ActiveView.Quizzes)}
+          />
+          <NavItem 
+            icon={ICONS.PROFILE}
+            label="Profile"
+            isActive={activeView === ActiveView.Profile}
+            onClick={() => setActiveView(ActiveView.Profile)}
+          />
+          <NavItem 
+            icon={ICONS.TESTS}
+            label="Tests"
+            isActive={activeView === ActiveView.Tests}
+            onClick={() => setActiveView(ActiveView.Tests)}
+          />
+          <NavItem 
+            icon={ICONS.CHALLENGES}
+            label="Challenges"
+            isActive={activeView === ActiveView.Challenges}
+            onClick={() => setActiveView(ActiveView.Challenges)}
+          />
+          <NavItem 
+            icon={ICONS.WALLET}
+            label="Wallet"
+            isActive={activeView === ActiveView.Wallet}
+            onClick={() => setActiveView(ActiveView.Wallet)}
+          />
+          <NavItem 
+            icon={ICONS.LEADERBOARD}
+            label="Leaderboard"
+            isActive={activeView === ActiveView.Leaderboard}
+            onClick={() => setActiveView(ActiveView.Leaderboard)}
+          />
+          <NavItem 
+            icon={ICONS.STUDY}
+            label="Study Mode"
+            isActive={activeView === ActiveView.Study}
+            onClick={() => setActiveView(ActiveView.Study)}
+          />
+          <NavItem 
+            icon={React.cloneElement(ICONS.BOOKMARK_EMPTY, {className:"h-6 w-6 mr-3"})}
+            label="Bookmarks"
+            isActive={activeView === ActiveView.Bookmarks}
+            onClick={() => setActiveView(ActiveView.Bookmarks)}
+          />
+          <NavItem 
+            icon={ICONS.CHATBOT}
+            label="AI Tutor"
+            isActive={activeView === ActiveView.Chatbot}
+            onClick={() => setActiveView(ActiveView.Chatbot)}
+          />
+        </nav>
       </div>
-      <nav className="flex flex-col space-y-2">
-        <NavItem 
-          icon={ICONS.QUIZZES}
-          label="Quizzes"
-          isActive={activeView === ActiveView.Quizzes}
-          onClick={() => setActiveView(ActiveView.Quizzes)}
-        />
-        <NavItem 
-          icon={ICONS.PROFILE}
-          label="Profile"
-          isActive={activeView === ActiveView.Profile}
-          onClick={() => setActiveView(ActiveView.Profile)}
-        />
-        <NavItem 
-          icon={ICONS.TESTS}
-          label="Tests"
-          isActive={activeView === ActiveView.Tests}
-          onClick={() => setActiveView(ActiveView.Tests)}
-        />
-         <NavItem 
-          icon={ICONS.CHALLENGES}
-          label="Challenges"
-          isActive={activeView === ActiveView.Challenges}
-          onClick={() => setActiveView(ActiveView.Challenges)}
-        />
-        <NavItem 
-          icon={ICONS.WALLET}
-          label="Wallet"
-          isActive={activeView === ActiveView.Wallet}
-          onClick={() => setActiveView(ActiveView.Wallet)}
-        />
-        <NavItem 
-          icon={ICONS.LEADERBOARD}
-          label="Leaderboard"
-          isActive={activeView === ActiveView.Leaderboard}
-          onClick={() => setActiveView(ActiveView.Leaderboard)}
-        />
-        <NavItem 
-          icon={ICONS.STUDY}
-          label="Study Mode"
-          isActive={activeView === ActiveView.Study}
-          onClick={() => setActiveView(ActiveView.Study)}
-        />
-        <NavItem 
-          icon={React.cloneElement(ICONS.BOOKMARK_EMPTY, {className:"h-6 w-6 mr-3"})}
-          label="Bookmarks"
-          isActive={activeView === ActiveView.Bookmarks}
-          onClick={() => setActiveView(ActiveView.Bookmarks)}
-        />
-         <NavItem 
-          icon={ICONS.CHATBOT}
-          label="AI Tutor"
-          isActive={activeView === ActiveView.Chatbot}
-          onClick={() => setActiveView(ActiveView.Chatbot)}
-        />
-      </nav>
-    </div>
+    </>
   );
 };
 

@@ -286,7 +286,7 @@ export const subjects: Subject[] = [
       }
     ]
   },
-   {
+  {
     id: 'computer-systems',
     name: 'Computer Systems',
     category: 'TVET',
@@ -315,10 +315,363 @@ export const subjects: Subject[] = [
           { id: '', questionText: 'How many layers are in the OSI model?', options: ['5', '6', '7', '8'], correctAnswerIndex: 2 },
           { id: '', questionText: 'Which layer of the OSI model is responsible for routing?', options: ['Physical', 'Data Link', 'Network', 'Transport'], correctAnswerIndex: 2 },
           { id: '', questionText: 'What is the function of a DNS server?', options: ['To assign IP addresses', 'To translate domain names to IP addresses', 'To block network traffic', 'To store files'], correctAnswerIndex: 1},
-          // FIX: Added missing correctAnswerIndex property. The correct answer is '172.16.0.1' at index 1.
-          { id: '', questionText: 'Which of the following is a private IP address?', options: ['127.0.0.1', '172.16.0.1', '8.8.8.8', '208.67.222.222'], correctAnswerIndex: 1 }
+          { id: '', questionText: 'Which of the following is a private IP address?', options: ['127.0.0.1', '172.16.0.1', '8.8.8.8', '208.67.222.222'], correctAnswerIndex: 1 },
+          { id: '', questionText: 'What protocol is often used to retrieve email from a mail server?', options: ['SMTP', 'POP3', 'HTTP', 'FTP'], correctAnswerIndex: 1 }
         ]
       }
     ]
   },
-]
+  {
+    id: 'automobile-technology',
+    name: 'Automobile Technology',
+    category: 'TVET',
+    quizzes: [
+      {
+        id: 'auto-1',
+        title: 'Engine Fundamentals',
+        questions: [
+          { id: '', questionText: 'What is the function of a car\'s radiator?', options: ['To heat the engine', 'To cool the engine', 'To filter oil', 'To charge the battery'], correctAnswerIndex: 1 },
+          { id: '', questionText: 'Which part of the engine ignites the fuel-air mixture?', options: ['Piston', 'Crankshaft', 'Spark Plug', 'Alternator'], correctAnswerIndex: 2 },
+          { id: '', questionText: 'What does "ABS" stand for in cars?', options: ['Anti-lock Braking System', 'Automatic Battery Service', 'Advanced Boost System', 'All-around Bumper Safety'], correctAnswerIndex: 0 },
+          { id: '', questionText: 'What type of current does a car battery provide?', options: ['Alternating Current (AC)', 'Direct Current (DC)', 'Positive Current (PC)', 'Negative Current (NC)'], correctAnswerIndex: 1 }
+        ]
+      }
+    ]
+  },
+   {
+    id: 'motorcycle-repair',
+    name: 'Motorcycle Repair',
+    category: 'TVET',
+    quizzes: [
+      {
+        id: 'moto-1',
+        title: 'Basic Maintenance',
+        questions: [
+          { id: '', questionText: 'What is the most common reason for a motorcycle not starting?', options: ['Flat tire', 'Dirty seat', 'Dead battery or empty fuel tank', 'Broken mirror'], correctAnswerIndex: 2 },
+          { id: '', questionText: 'How often should you typically check your motorcycle\'s tire pressure?', options: ['Once a year', 'Once a month', 'Before every long ride', 'Only when it looks flat'], correctAnswerIndex: 2 },
+          { id: '', questionText: 'What does the clutch lever on a motorcycle do?', options: ['Engages the brakes', 'Changes the radio station', 'Disengages the engine from the transmission', 'Turns on the headlights'], correctAnswerIndex: 2 },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'welding',
+    name: 'Welding',
+    category: 'TVET',
+    quizzes: [
+      {
+        id: 'weld-1',
+        title: 'Welding Safety & Basics',
+        questions: [
+          { id: '', questionText: 'What is the MOST important piece of Personal Protective Equipment (PPE) for a welder?', options: ['Gloves', 'Steel-toed boots', 'Welding Helmet', 'Hard hat'], correctAnswerIndex: 2 },
+          { id: '', questionText: 'What does MIG stand for in welding?', options: ['Metal Inert Gas', 'Manual Iron Gauge', 'Metallic Industrial Grade', 'Motorized Impact Gear'], correctAnswerIndex: 0 },
+          { id: '', questionText: 'What is the main purpose of flux in welding?', options: ['To cool the metal', 'To shield the weld area from atmospheric gases', 'To make the weld shiny', 'To increase the electrical current'], correctAnswerIndex: 1 },
+        ]
+      }
+    ]
+  },
+   {
+    id: 'building-construction',
+    name: 'Building Construction',
+    category: 'TVET',
+    quizzes: [
+      {
+        id: 'bc-1',
+        title: 'Site Safety & Materials',
+        questions: [
+          { id: '', questionText: 'What is the primary purpose of wearing a hard hat on a construction site?', options: ['To look professional', 'To protect the head from falling objects', 'To keep the sun out of your eyes', 'To hold tools'], correctAnswerIndex: 1 },
+          { id: '', questionText: 'What material is created by mixing cement, sand, aggregate, and water?', options: ['Mortar', 'Plaster', 'Concrete', 'Grout'], correctAnswerIndex: 2 },
+          { id: '', questionText: 'What is "rebar"?', options: ['A type of brick', 'A wooden support beam', 'A common hand tool', 'Steel bars used to reinforce concrete'], correctAnswerIndex: 3 },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'masonry',
+    name: 'Masonry',
+    category: 'TVET',
+    quizzes: [
+      {
+        id: 'mason-1',
+        title: 'Bricklaying Fundamentals',
+        questions: [
+          { id: '', questionText: 'What is the primary function of mortar in bricklaying?', options: ['To color the bricks', 'To bond the bricks together and seal gaps', 'To make the wall weaker', 'To absorb water'], correctAnswerIndex: 1 },
+          { id: '', questionText: 'Which tool is used to ensure a wall is perfectly vertical?', options: ['Trowel', 'A Spirit Level or Plumb Bob', 'Hammer', 'Tape Measure'], correctAnswerIndex: 1 },
+          { id: '', questionText: 'A brick laid with its end exposed on the face of a wall is called a:', options: ['Stretcher', 'Soldier', 'Header', 'Rowlock'], correctAnswerIndex: 2 },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'plumbing',
+    name: 'Plumbing',
+    category: 'TVET',
+    quizzes: [
+      {
+        id: 'plumb-1',
+        title: 'Pipes & Fittings',
+        questions: [
+          { id: '', questionText: 'Which tool is primarily used to tighten and loosen pipes?', options: ['Hammer', 'Pipe Wrench', 'Screwdriver', 'Pliers'], correctAnswerIndex: 1 },
+          { id: '', questionText: 'What does PVC stand for?', options: ['Pressurized Vinyl Compound', 'Polyvinyl Chloride', 'Primary Valve Connector', 'Pipe Vise Clamp'], correctAnswerIndex: 1 },
+          { id: '', questionText: 'What is the main purpose of a P-trap under a sink?', options: ['To catch dropped items', 'To increase water pressure', 'To block sewer gases from entering the house', 'To filter the water'], correctAnswerIndex: 2 },
+        ]
+      }
+    ]
+  },
+   {
+    id: 'water-irrigation',
+    name: 'Water & Irrigation',
+    category: 'TVET',
+    quizzes: [
+      {
+        id: 'water-1',
+        title: 'Irrigation Systems',
+        questions: [
+          { id: '', questionText: 'Which irrigation method is most efficient in terms of water use?', options: ['Flood irrigation', 'Sprinkler irrigation', 'Drip irrigation', 'Furrow irrigation'], correctAnswerIndex: 2 },
+          { id: '', questionText: 'What is the main function of a water pump in an irrigation system?', options: ['To filter the water', 'To add pressure and move water from the source to the field', 'To clean the pipes', 'To measure water flow'], correctAnswerIndex: 1 },
+          { id: '', questionText: 'What is "salinization" in the context of irrigation?', options: ['The process of removing salt from water', 'The buildup of salts in soil, often due to improper irrigation', 'A type of water filter', 'A method of planting crops'], correctAnswerIndex: 1 },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'electrical-technology',
+    name: 'Electrical Technology',
+    category: 'TVET',
+    quizzes: [
+      {
+        id: 'elec-1',
+        title: 'Basic Circuits',
+        questions: [
+          { id: '', questionText: 'What does Ohm\'s law state?', options: ['V = I / R', 'I = V * R', 'R = V + I', 'V = I * R'], correctAnswerIndex: 3 },
+          { id: '', questionText: 'A material that allows electric current to pass through it easily is called a(n):', options: ['Insulator', 'Semiconductor', 'Conductor', 'Resistor'], correctAnswerIndex: 2 },
+          { id: '', questionText: 'What is the function of a fuse or circuit breaker?', options: ['To increase voltage', 'To store electricity', 'To protect a circuit from excessive current', 'To convert AC to DC'], correctAnswerIndex: 2 },
+        ]
+      }
+    ]
+  },
+   {
+    id: 'electronics-telecom',
+    name: 'Electronics & Telecommunication',
+    category: 'TVET',
+    quizzes: [
+      {
+        id: 'et-1',
+        title: 'Basic Components',
+        questions: [
+          { id: '', questionText: 'What is the function of a resistor in an electronic circuit?', options: ['To store energy', 'To amplify signals', 'To limit or control the flow of current', 'To act as a switch'], correctAnswerIndex: 2 },
+          { id: '', questionText: 'Which component stores electrical energy in an electric field?', options: ['Resistor', 'Inductor', 'Diode', 'Capacitor'], correctAnswerIndex: 3 },
+          { id: '', questionText: 'What does "LED" stand for?', options: ['Low Energy Display', 'Light Emitting Diode', 'Liquid Electronic Device', 'Laser Emission Detector'], correctAnswerIndex: 1 },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'carpentry',
+    name: 'Carpentry',
+    category: 'TVET',
+    quizzes: [
+      {
+        id: 'carp-1',
+        title: 'Woodworking Tools',
+        questions: [
+          { id: '', questionText: 'Which saw is best for cutting curves and complex shapes in wood?', options: ['Circular Saw', 'Miter Saw', 'Table Saw', 'Jigsaw'], correctAnswerIndex: 3 },
+          { id: '', questionText: 'Which tool is used to check if an angle is exactly 90 degrees?', options: ['Sliding Bevel', 'Protractor', 'Try Square', 'Level'], correctAnswerIndex: 2 },
+          { id: '', questionText: 'What is the primary use of a wood plane?', options: ['To drill holes', 'To smooth and flatten wood surfaces', 'To cut wood in half', 'To hammer nails'], correctAnswerIndex: 1 },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'culinary-arts',
+    name: 'Culinary Arts',
+    category: 'TVET',
+    quizzes: [
+      {
+        id: 'ca-1',
+        title: 'Kitchen Basics',
+        questions: [
+          { id: '', questionText: 'What is the French culinary phrase for "everything in its place," referring to preparation before cooking?', options: ['Bon appétit', 'Mise en place', 'À la carte', 'Hors d\'œuvre'], correctAnswerIndex: 1 },
+          { id: '', questionText: 'What is the temperature "danger zone" where bacteria grow most rapidly on food?', options: ['Below 0°C', '0°C to 10°C', '4°C to 60°C', 'Above 100°C'], correctAnswerIndex: 2 },
+          { id: '', questionText: 'What is a "roux"?', options: ['A type of salad dressing', 'A mixture of flour and fat used to thicken sauces', 'A vegetable cutting technique', 'A dessert made with eggs'], correctAnswerIndex: 1 },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'food-beverage-service',
+    name: 'Food & Beverage Service',
+    category: 'TVET',
+    quizzes: [
+      {
+        id: 'fbs-1',
+        title: 'Customer Service Basics',
+        questions: [
+          { id: '', questionText: 'When serving a guest, from which side should you typically serve the food?', options: ['The right side', 'The left side', 'From behind', 'Whichever is easiest'], correctAnswerIndex: 1 },
+          { id: '', questionText: 'What is the first thing you should do when a guest sits down at a table?', options: ['Take their order', 'Bring the bill', 'Greet them and offer water or drinks', 'Tell them the specials'], correctAnswerIndex: 2 },
+          { id: '', questionText: 'What does "upselling" mean in a restaurant context?', options: ['Selling items that are about to expire', 'Suggesting more expensive or additional items to a customer', 'Charging more than the menu price', 'Giving food away for free'], correctAnswerIndex: 1 },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'tourism',
+    name: 'Tourism',
+    category: 'TVET',
+    quizzes: [
+      {
+        id: 'tourism-1',
+        title: 'Rwandan Tourism',
+        questions: [
+          { id: '', questionText: 'Which of the "Big Five" animals can be found in Akagera National Park?', options: ['Lion, Leopard, Rhino, Elephant, and Buffalo', 'Gorilla, Chimpanzee, Golden Monkey, Baboon, Colobus Monkey', 'Zebra, Giraffe, Hippo, Crocodile, Wildebeest', 'All of the above'], correctAnswerIndex: 0 },
+          { id: '', questionText: 'What is the Canopy Walkway located in Nyungwe National Park famous for?', options: ['It is the longest in the world', 'It offers a unique perspective of the rainforest from above', 'It is made of gold', 'It is underground'], correctAnswerIndex: 1 },
+          { id: '', questionText: 'What does the term "Kwita Izina" refer to in Rwanda?', options: ['A traditional dance festival', 'A coffee tasting ceremony', 'The annual baby gorilla naming ceremony', 'A national holiday'], correctAnswerIndex: 2 },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'land-surveying',
+    name: 'Land Surveying',
+    category: 'TVET',
+    quizzes: [
+      {
+        id: 'ls-1',
+        title: 'Surveying Principles',
+        questions: [
+          { id: '', questionText: 'In surveying, what is a "benchmark"?', options: ['A type of survey equipment', 'The final map produced', 'A point of known elevation used as a reference', 'A property boundary marker'], correctAnswerIndex: 2 },
+          { id: 'ls-1-2', questionText: 'Which instrument is used to measure horizontal and vertical angles?', options: ['GPS Rover', 'A Level', 'A measuring tape', 'A Theodolite or Total Station'], correctAnswerIndex: 3 },
+          { id: '', questionText: 'On a topographic map, what do contour lines represent?', options: ['Roads and buildings', 'Property boundaries', 'Lines of equal elevation', 'Underground pipes'], correctAnswerIndex: 2 },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'solar-energy',
+    name: 'Solar Energy',
+    category: 'TVET',
+    quizzes: [
+      {
+        id: 'solar-1',
+        title: 'Solar Panel Basics',
+        questions: [
+          { id: '', questionText: 'What does a photovoltaic (PV) panel do?', options: ['Heats water using the sun', 'Converts sunlight directly into electricity', 'Stores solar energy as heat', 'Blocks sunlight'], correctAnswerIndex: 1 },
+          { id: '', questionText: 'In a solar power system, what is the function of an inverter?', options: ['To charge the battery', 'To convert DC electricity from the panels to AC electricity for home use', 'To clean the panels', 'To track the sun'], correctAnswerIndex: 1 },
+          { id: '', questionText: 'In the Southern Hemisphere (like Rwanda), which direction should solar panels generally face for maximum exposure?', options: ['South', 'East', 'West', 'North'], correctAnswerIndex: 3 },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'tailoring',
+    name: 'Tailoring',
+    category: 'TVET',
+    quizzes: [
+      {
+        id: 'tailor-1',
+        title: 'Sewing Essentials',
+        questions: [
+          { id: '', questionText: 'What is the "seam allowance"?', options: ['A discount on fabric', 'The area between the stitching line and the raw edge of the fabric', 'Extra thread for sewing', 'A type of needle'], correctAnswerIndex: 1 },
+          { id: '', questionText: 'Which tool is specifically designed for cutting fabric?', options: ['Office scissors', 'A utility knife', 'Fabric shears or a rotary cutter', 'Pliers'], correctAnswerIndex: 2 },
+          { id: '', questionText: 'What are "basting" stitches used for?', options: ['Permanent, strong seams', 'Decorative embroidery', 'Temporarily holding fabric pieces together before final sewing', 'Creating buttonholes'], correctAnswerIndex: 2 },
+        ]
+      }
+    ]
+  },
+   {
+    id: 'leathercraft',
+    name: 'Leathercraft',
+    category: 'TVET',
+    quizzes: [
+      {
+        id: 'leather-1',
+        title: 'Leather Basics',
+        questions: [
+          { id: '', questionText: 'What is the difference between "full-grain" and "top-grain" leather?', options: ['There is no difference', 'Full-grain is the highest quality and has not been sanded; top-grain has been sanded', 'Top-grain is thicker than full-grain', 'Full-grain is artificial leather'], correctAnswerIndex: 1 },
+          { id: '', questionText: 'Which tool is used to punch holes in leather for stitching?', options: ['A hammer', 'A stitching awl or pricking iron', 'A screwdriver', 'A burnisher'], correctAnswerIndex: 1 },
+          { id: '', questionText: 'What is "burnishing" the edge of leather?', options: ['Painting the edge', 'Cutting the edge straight', 'Smoothing and polishing the edge using friction', 'Setting it on fire'], correctAnswerIndex: 2 },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'hairdressing-beautification',
+    name: 'Hairdressing & Beautification',
+    category: 'TVET',
+    quizzes: [
+      {
+        id: 'hb-1',
+        title: 'Salon Fundamentals',
+        questions: [
+          { id: '', questionText: 'What is the most important first step before applying any chemical treatment to a client\'s hair?', options: ['Washing the hair', 'Performing a patch test for allergies', 'Asking for payment', 'Cutting the hair'], correctAnswerIndex: 1 },
+          { id: '', questionText: 'What is the purpose of using conditioner after shampooing?', options: ['To clean the scalp', 'To restore moisture and smooth the hair cuticle', 'To make the hair curly', 'To remove color'], correctAnswerIndex: 1 },
+          { id: '', questionText: 'What is sanitation and sterilization essential in a salon?', options: ['It is not important', 'To make the tools look shiny', 'To prevent the spread of infections and diseases', 'To meet government regulations only'], correctAnswerIndex: 2 },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'painting-decoration',
+    name: 'Painting & Decoration',
+    category: 'TVET',
+    quizzes: [
+      {
+        id: 'pd-1',
+        title: 'Surface Preparation',
+        questions: [
+          { id: '', questionText: 'What is the most crucial step before painting any surface?', options: ['Choosing the color', 'Buying brushes', 'Properly cleaning and preparing the surface', 'Opening the windows'], correctAnswerIndex: 2 },
+          { id: '', questionText: 'What is the purpose of a "primer" coat?', options: ['It is the final color', 'To help the finish paint adhere better and provide a uniform surface', 'To make the wall shiny', 'To thin the paint'], correctAnswerIndex: 1 },
+          { id: '', questionText: 'What is "cutting in" when painting a room?', options: ['Making holes in the wall', 'Using a brush to paint along edges, corners, and trim', 'Spilling paint on the floor', 'Mixing two colors together'], correctAnswerIndex: 1 },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'manufacturing-tech',
+    name: 'Manufacturing Technology',
+    category: 'TVET',
+    quizzes: [
+      {
+        id: 'mt-1',
+        title: 'Safety & Machinery',
+        questions: [
+          { id: '', questionText: 'What does PPE stand for in a manufacturing environment?', options: ['Product Production Equipment', 'Personal Protective Equipment', 'Primary Power Engine', 'Process Planning Executive'], correctAnswerIndex: 1 },
+          { id: '', questionText: 'Which type of machine is used to shape metal by removing material?', options: ['A lathe or milling machine', 'A 3D printer', 'A welding machine', 'A casting mold'], correctAnswerIndex: 0 },
+          { id: '', questionText: 'What is an "assembly line"?', options: ['A line of people waiting for a product', 'A manufacturing process where parts are added in sequence to create a finished product', 'A quality control checklist', 'A type of conveyor belt'], correctAnswerIndex: 1 },
+        ]
+      }
+    ]
+  },
+   {
+    id: 'heavy-machinery',
+    name: 'Heavy Machinery Operation',
+    category: 'TVET',
+    quizzes: [
+      {
+        id: 'hm-1',
+        title: 'Operator Safety',
+        questions: [
+          { id: '', questionText: 'What is the first thing an operator should do before starting a piece of heavy machinery for the day?', options: ['Start the engine immediately', 'Perform a pre-operation inspection (walk-around check)', 'Check the radio', 'Adjust the seat'], correctAnswerIndex: 1 },
+          { id: '', questionText: 'What does the "swing radius" of an excavator refer to?', options: ['How far it can dig', 'The unseen area at the rear of the machine that can crush objects when it rotates', 'The length of the arm', 'How fast it can turn'], correctAnswerIndex: 1 },
+          { id: '', questionText: 'Why is it critical to know the location of underground utilities before digging?', options: ['To avoid them', 'To prevent costly damage and potentially fatal accidents', 'It is not important', 'Both A and B'], correctAnswerIndex: 3 },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'agriculture',
+    name: 'Agriculture',
+    category: 'TVET',
+    quizzes: [
+      {
+        id: 'agri-1',
+        title: 'Farming Fundamentals',
+        questions: [
+          { id: '', questionText: 'What is the main purpose of crop rotation?', options: ['To make the field look different each year', 'To improve soil health and reduce pests', 'To grow only one type of crop', 'To use less water'], correctAnswerIndex: 1 },
+          { id: '', questionText: 'In fertilizers, what do the letters N-P-K stand for?', options: ['Nitrate, Phosphate, Karat', 'Nitrogen, Phosphorus, Potassium', 'Natural, Pure, Keen', 'New, Plant, Kinetics'], correctAnswerIndex: 1 },
+          { id: '', questionText: 'What is irrigation?', options: ['The process of removing weeds', 'The artificial application of water to land to assist in the production of crops', 'The use of pesticides', 'The process of harvesting crops'], correctAnswerIndex: 1 },
+        ]
+      }
+    ]
+  }
+];

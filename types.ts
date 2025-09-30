@@ -58,11 +58,34 @@ export interface UserProfile {
     bio: string;
     avatar: string; // e.g., 'avatar1', 'avatar2'
     preferredTrade: string; // Corresponds to a subject ID
+    achievements: string[]; // IDs of unlocked achievements
+}
+
+export interface UserProgress {
+    [quizId: string]: {
+        score: number;
+        date: string; // ISO date string
+    }
+}
+
+export interface Achievement {
+    id: string;
+    name: string;
+    description: string;
+    icon: '🏆' | '🥇' | '🧠' | '🔥' | '📚' | '⭐️';
+}
+
+export interface Transaction {
+    id: number;
+    date: string; // ISO date string
+    description: string;
+    amount: number; // Can be positive or negative
 }
 
 export interface LeaderboardEntry {
     rank: number;
     name: string;
     score: number;
+    avatar: string; // e.g., 'avatar1', 'avatar2'
     isCurrentUser: boolean;
 }
