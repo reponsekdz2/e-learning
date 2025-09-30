@@ -1,5 +1,4 @@
 
-
 import React, { useState, useEffect, useMemo } from 'react';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
@@ -66,7 +65,7 @@ const processChallenges = (data: DailyChallenge[]): DailyChallenge[] => {
         quiz: {
             ...challenge.quiz,
             questions: challenge.quiz.questions.map((question, index) => ({
-                ...question,
+                ...challenge.quiz.questions[index],
                 id: question.id || `${challenge.quiz.id}-q-${index}`
             }))
         }
@@ -74,10 +73,9 @@ const processChallenges = (data: DailyChallenge[]): DailyChallenge[] => {
 };
 
 // Custom hook for localStorage
-function useStickyState<T>(defaultValue: T, key: string): [T, React.Dispatch<React.SetStateAction<T>>] {
+// FIX: Updated the type of defaultValue to allow for a lazy initialization function, matching the hook's implementation.
+function useStickyState<T>(defaultValue: T | (() => T), key: string): [T, React.Dispatch<React.SetStateAction<T>>] {
   const [value, setValue] = useState<T>(() => {
-    // First, determine what the default value is supposed to be.
-    // If a function is passed, it's a lazy initializer, so call it.
     const resolvedDefaultValue = typeof defaultValue === 'function'
       ? (defaultValue as Function)()
       : defaultValue;
@@ -86,15 +84,12 @@ function useStickyState<T>(defaultValue: T, key: string): [T, React.Dispatch<Rea
         const stickyValue = window.localStorage.getItem(key);
         if (stickyValue !== null) {
           const parsed = JSON.parse(stickyValue);
-          // Now, validate the stored value against the default's type.
-          // This prevents crashes from corrupted data (e.g. object stored where array is expected).
           if (Array.isArray(resolvedDefaultValue) && !Array.isArray(parsed)) {
             console.warn(`LocalStorage for key "${key}" is corrupted (expected array). Reverting to default.`);
             return resolvedDefaultValue;
           }
           return parsed;
         }
-        // No sticky value, return the resolved default.
         return resolvedDefaultValue;
     } catch (error) {
         console.warn(`Error reading localStorage key “${key}”:`, error);
@@ -114,11 +109,10 @@ const App: React.FC = () => {
     // App State
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [activeView, setActiveView] = useStickyState<ActiveView>(ActiveView.Quizzes, 'activeView');
+    const [subjectFilter, setSubjectFilter] = useState<'All' | 'General' | 'TVET'>('All');
     
     // Data state
-    // FIX: The useStickyState hook expects a value, not a function, for its defaultValue.
-    // Call processSubjects directly to provide the initial value.
-    const [subjects, setSubjects] = useStickyState<Subject[]>(processSubjects(initialSubjects), 'subjects');
+    const [subjects, setSubjects] = useStickyState<Subject[]>(() => processSubjects(initialSubjects), 'subjects');
     const [tests, setTests] = useState<Test[]>(() => processTests(initialTests));
     const [challenges, setChallenges] = useState<DailyChallenge[]>(() => processChallenges(allChallenges));
     const [notifications, setNotifications] = useStickyState<Notification[]>(initialNotifications, 'notifications');
@@ -215,6 +209,14 @@ const App: React.FC = () => {
         if (achievement) {
             setUnlockedAchievements(prev => [...prev, achievement]);
             setLastUnlockedAchievement(achievement);
+            // Add a new notification
+            const newNotification: Notification = {
+                id: `notif-${Date.now()}`,
+                message: `Achievement Unlocked: ${achievement.name}!`,
+                date: new Date().toISOString(),
+                read: false,
+            };
+            setNotifications(prev => [newNotification, ...prev]);
         }
     }
     
@@ -239,6 +241,10 @@ const App: React.FC = () => {
         const bookmarks = new Set(bookmarkedQuestionIds);
         return Array.from(allQuestions.values()).filter(q => bookmarks.has(q.id));
     }, [bookmarkedQuestionIds, subjects, tests, challenges]);
+    
+    const handleMarkNotificationsRead = () => {
+        setNotifications(prev => prev.map(n => ({ ...n, read: true })));
+    }
 
 
     const renderActiveView = () => {
@@ -275,7 +281,7 @@ const App: React.FC = () => {
             default:
                 switch(gameState) {
                     case 'selecting-subject':
-                        return <SubjectSelectionScreen subjects={subjects} onSelectSubject={handleSelectSubject} />;
+                        return <SubjectSelectionScreen subjects={subjects} onSelectSubject={handleSelectSubject} subjectFilter={subjectFilter} />;
                     case 'selecting-quiz':
                         if (currentSubject) {
                             return <QuizSelectionScreen subject={currentSubject} onSelectQuiz={startQuiz} onBack={() => setGameState('selecting-subject')} onUpdateSubject={handleUpdateSubject} />;
@@ -315,7 +321,15 @@ const App: React.FC = () => {
         <div className="bg-gray-900 text-gray-200 font-sans min-h-screen flex">
             <Sidebar activeView={activeView} setActiveView={setActiveView} isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
             <div className="flex-1 flex flex-col lg:ml-64">
-                <Header onMenuClick={() => setIsSidebarOpen(o => !o)} userProfile={userProfile} notificationsCount={notifications.filter(n => !n.read).length} />
+                <Header 
+                    onMenuClick={() => setIsSidebarOpen(o => !o)} 
+                    userProfile={userProfile} 
+                    notifications={notifications}
+                    onMarkNotificationsRead={handleMarkNotificationsRead}
+                    activeView={activeView}
+                    subjectFilter={subjectFilter}
+                    setSubjectFilter={setSubjectFilter}
+                />
                 <main className="flex-1 p-4 md:p-6 lg:p-8 overflow-y-auto">
                     {renderActiveView()}
                 </main>
