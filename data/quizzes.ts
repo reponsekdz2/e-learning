@@ -33,6 +33,21 @@ export const subjects: Subject[] = [
     ]
   },
   {
+    id: 'french',
+    name: 'French',
+    category: 'General',
+    quizzes: [
+       {
+        id: 'fr-1',
+        title: 'Les Salutations',
+        questions: [
+          { questionText: 'How do you say "Hello" in French?', options: ['Au revoir', 'Bonjour', 'Merci', 'Oui'], correctAnswerIndex: 1 },
+          { questionText: 'What is "Thank you"?', options: ['S\'il vous plaît', 'Excusez-moi', 'Merci', 'De rien'], correctAnswerIndex: 2 },
+        ]
+      }
+    ]
+  },
+  {
     id: 'biology',
     name: 'Biology',
     category: 'General',
@@ -43,7 +58,7 @@ export const subjects: Subject[] = [
         questions: [
           { questionText: 'What is the powerhouse of the cell?', options: ['Nucleus', 'Ribosome', 'Mitochondrion', 'Cell Wall'], correctAnswerIndex: 2 },
           { questionText: 'Which organelle is responsible for protein synthesis?', options: ['Golgi Apparatus', 'Ribosome', 'Lysosome', 'Vacuole'], correctAnswerIndex: 1 },
-          { questionText: 'What is the main function of the cell membrane?', options: ['Provide structural support', 'Control what enters and leaves the cell', 'Store genetic information', 'Produce energy'], correctAnswerIndex: 1 },
+          { questionText: 'What is the main function of the cell membrane?', options: ['Provide structural support', 'Control what enters and leaves the a cell', 'Store genetic information', 'Produce energy'], correctAnswerIndex: 1 },
           { questionText: 'In which part of the cell does photosynthesis occur?', options: ['Mitochondrion', 'Cytoplasm', 'Chloroplast', 'Nucleus'], correctAnswerIndex: 2 },
           { questionText: 'Which of these is not found in an animal cell?', options: ['Cell Wall', 'Mitochondrion', 'Nucleus', 'Cytoplasm'], correctAnswerIndex: 0 },
         ]
@@ -139,6 +154,21 @@ export const subjects: Subject[] = [
       }
     ]
   },
+  {
+    id: 'ict',
+    name: 'ICT Basics',
+    category: 'General',
+    quizzes: [
+       {
+        id: 'ict-1',
+        title: 'Computer Fundamentals',
+        questions: [
+          { questionText: 'What does CPU stand for?', options: ['Central Processing Unit', 'Computer Personal Unit', 'Central Process Unit', 'Central Processor Unit'], correctAnswerIndex: 0 },
+        ]
+      }
+    ]
+  },
+
   // TVET Subjects
   {
     id: 'software-development',
@@ -234,6 +264,146 @@ export const subjects: Subject[] = [
         title: 'Fundamental Concepts',
         questions: [
           { questionText: 'What does "debit" mean?', options: ['An increase in assets or a decrease in liabilities', 'A decrease in assets or an increase in liabilities', 'An increase in equity', 'A decrease in revenue'], correctAnswerIndex: 0 },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'masonry',
+    name: 'Masonry',
+    category: 'TVET',
+    quizzes: [
+      {
+        id: 'mas-1',
+        title: 'Brick Types',
+        questions: [
+          { questionText: 'Which type of bond is considered the strongest in brickwork?', options: ['Stretcher Bond', 'Header Bond', 'English Bond', 'Flemish Bond'], correctAnswerIndex: 2 },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'plumbing',
+    name: 'Plumbing',
+    category: 'TVET',
+    quizzes: [
+      {
+        id: 'plumb-1',
+        title: 'Basic Tools',
+        questions: [
+          { questionText: 'Which tool is used to tighten and loosen pipes?', options: ['Hammer', 'Pipe Wrench', 'Screwdriver', 'Pliers'], correctAnswerIndex: 1 },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'welding',
+    name: 'Welding',
+    category: 'TVET',
+    quizzes: [
+      {
+        id: 'weld-1',
+        title: 'Safety',
+        questions: [
+          { questionText: 'What is the most important piece of safety equipment for a welder?', options: ['Gloves', 'Steel-toed boots', 'Welding Helmet', 'Safety glasses'], correctAnswerIndex: 2 },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'auto-mechanics',
+    name: 'Automotive Mechanics',
+    category: 'TVET',
+    quizzes: [
+      {
+        id: 'auto-1',
+        title: 'Engine Basics',
+        questions: [
+          { questionText: 'What does the "E" in the acronym "CHECK ENGINE" light stand for?', options: ['Exhaust', 'Engine', 'Electricity', 'Emission'], correctAnswerIndex: 1 },
+        ]
+      }
+    ]
+  },
+   {
+    id: 'hospitality',
+    name: 'Hospitality Management',
+    category: 'TVET',
+    quizzes: [
+      {
+        id: 'hosp-1',
+        title: 'Customer Service',
+        questions: [
+          { questionText: 'What is a key principle of good customer service in hospitality?', options: ['Ignoring complaints', 'Anticipating guest needs', 'Charging extra fees', 'Being unavailable'], correctAnswerIndex: 1 },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'tourism',
+    name: 'Tourism',
+    category: 'TVET',
+    quizzes: [
+      {
+        id: 'tour-1',
+        title: 'Rwandan Attractions',
+        questions: [
+          { questionText: 'Which national park in Rwanda is famous for mountain gorillas?', options: ['Akagera National Park', 'Nyungwe Forest National Park', 'Volcanoes National Park', 'Gishwati Mukura National Park'], correctAnswerIndex: 2 },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'culinary-arts',
+    name: 'Culinary Arts',
+    category: 'TVET',
+    quizzes: [
+      {
+        id: 'ca-1',
+        title: 'Basic Techniques',
+        questions: [
+          { questionText: 'What is the French term for finely chopped vegetables (onion, celery, carrot) used as a base for stocks and sauces?', options: ['Mirepoix', 'Roux', 'Consommé', 'Julienne'], correctAnswerIndex: 0 },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'tailoring',
+    name: 'Tailoring',
+    category: 'TVET',
+    quizzes: [
+      {
+        id: 'tailor-1',
+        title: 'Fabric Types',
+        questions: [
+          { questionText: 'Which fabric is made from the flax plant?', options: ['Cotton', 'Silk', 'Linen', 'Wool'], correctAnswerIndex: 2 },
+        ]
+      }
+    ]
+  },
+   {
+    id: 'hairdressing',
+    name: 'Hairdressing & Beauty',
+    category: 'TVET',
+    quizzes: [
+      {
+        id: 'h-b-1',
+        title: 'Safety and Sanitation',
+        questions: [
+          { questionText: 'Why is it important to sanitize salon tools between clients?', options: ['To make them shiny', 'To prevent the spread of bacteria and infections', 'The law requires it but it\'s not important', 'To make them last longer'], correctAnswerIndex: 1 },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'crop-production',
+    name: 'Crop Production',
+    category: 'TVET',
+    quizzes: [
+      {
+        id: 'crop-1',
+        title: 'Soil Health',
+        questions: [
+          { questionText: 'Which of these is a primary nutrient for plants?', options: ['Carbon', 'Oxygen', 'Nitrogen', 'Iron'], correctAnswerIndex: 2 },
         ]
       }
     ]

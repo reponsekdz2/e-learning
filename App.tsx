@@ -148,13 +148,13 @@ const App: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex">
+    <div className="min-h-screen bg-gray-900 text-white">
       <Sidebar activeView={activeView} setActiveView={setActiveView} />
-      <div className="flex-1 flex flex-col">
+      <div className="ml-64 flex flex-col h-screen">
         {activeView === ActiveView.Quizzes && gameState === GameState.SubjectSelection && (
           <Header activeFilter={subjectFilter} setFilter={setSubjectFilter} />
         )}
-        <main className="flex-1 flex items-center justify-center p-4">
+        <main className="flex-1 flex items-center justify-center p-4 overflow-y-auto">
           <div className="w-full max-w-4xl">
             {renderActiveView()}
           </div>

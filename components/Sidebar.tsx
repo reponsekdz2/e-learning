@@ -27,7 +27,7 @@ const NavItem: React.FC<{
 
 const Sidebar: React.FC<SidebarProps> = ({ activeView, setActiveView }) => {
   return (
-    <div className="w-64 bg-gray-800 h-screen p-4 flex flex-col border-r border-gray-700">
+    <div className="w-64 bg-gray-800 h-screen p-4 flex flex-col border-r border-gray-700 fixed top-0 left-0">
       <div className="mb-8 text-center">
         <h1 className="text-2xl font-bold text-white">Quiz Hub</h1>
         <p className="text-sm text-gray-400">Rwanda Edition</p>
