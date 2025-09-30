@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActiveView } from '../types';
+import { ActiveView, UserProfile } from '../types';
 import { ICONS } from '../constants';
 
 interface SidebarProps {
@@ -7,6 +7,7 @@ interface SidebarProps {
   setActiveView: (view: ActiveView) => void;
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
+  userRole: UserProfile['role'];
 }
 
 const NavItem: React.FC<{
@@ -27,7 +28,34 @@ const NavItem: React.FC<{
   );
 };
 
-const Sidebar: React.FC<SidebarProps> = ({ activeView, setActiveView, isOpen, setIsOpen }) => {
+const studentNavItems = [
+    { view: ActiveView.Quizzes, label: 'Quiz Hub', icon: ICONS.QUIZZES },
+    { view: ActiveView.Profile, label: 'Profile', icon: ICONS.PROFILE },
+    { view: ActiveView.Tests, label: 'Tests', icon: ICONS.TESTS },
+    { view: ActiveView.Challenges, label: 'Challenges', icon: ICONS.CHALLENGES },
+    { view: ActiveView.Wallet, label: 'Wallet', icon: ICONS.WALLET },
+    { view: ActiveView.Leaderboard, label: 'Leaderboard', icon: ICONS.LEADERBOARD },
+    { view: ActiveView.Study, label: 'Study Mode', icon: ICONS.STUDY },
+    { view: ActiveView.Bookmarks, label: 'Bookmarks', icon: React.cloneElement(ICONS.BOOKMARK_EMPTY, {className:"h-6 w-6 mr-3"})},
+    { view: ActiveView.Chatbot, label: 'AI Tutor', icon: ICONS.CHATBOT },
+];
+
+const teacherNavItems = [
+    { view: ActiveView.TeacherDashboard, label: 'Overview', icon: ICONS.QUIZZES },
+    { view: ActiveView.MyQuizzes, label: 'My Quizzes', icon: ICONS.TESTS },
+    { view: ActiveView.MyStudents, label: 'Students', icon: ICONS.PROFILE },
+    { view: ActiveView.Profile, label: 'Profile', icon: ICONS.PROFILE },
+];
+
+const adminNavItems = [
+    { view: ActiveView.AdminDashboard, label: 'Overview', icon: ICONS.QUIZZES },
+    { view: ActiveView.UserManagement, label: 'User Management', icon: ICONS.PROFILE },
+    { view: ActiveView.ContentManagement, label: 'Content Management', icon: ICONS.STUDY },
+    { view: ActiveView.Profile, label: 'Profile', icon: ICONS.PROFILE },
+];
+
+
+const Sidebar: React.FC<SidebarProps> = ({ activeView, setActiveView, isOpen, setIsOpen, userRole }) => {
   const sidebarClasses = `
     w-64 bg-gray-800 h-screen p-4 flex flex-col border-r border-gray-700
     fixed top-0 left-0 z-40
@@ -36,6 +64,17 @@ const Sidebar: React.FC<SidebarProps> = ({ activeView, setActiveView, isOpen, se
     lg:translate-x-0
   `;
   
+  let navItems = studentNavItems;
+  if (userRole === 'teacher') navItems = teacherNavItems;
+  if (userRole === 'admin') navItems = adminNavItems;
+
+  const handleNavItemClick = (view: ActiveView) => {
+    setActiveView(view);
+    if(window.innerWidth < 1024) { // Close sidebar on mobile after click
+        setIsOpen(false);
+    }
+  }
+
   return (
     <>
       {/* Overlay for mobile */}
@@ -48,64 +87,19 @@ const Sidebar: React.FC<SidebarProps> = ({ activeView, setActiveView, isOpen, se
 
       <div className={sidebarClasses}>
         <div className="mb-8 text-center">
-          <h1 className="text-2xl font-bold text-white">Gemini Genius</h1>
-          <p className="text-sm text-gray-400">Rwanda Edition</p>
+          <h1 className="text-2xl font-bold text-white">Igacyane</h1>
+          <p className="text-sm text-purple-400 capitalize">{userRole} Portal</p>
         </div>
         <nav className="flex flex-col space-y-2">
-          <NavItem 
-            icon={ICONS.QUIZZES}
-            label="Quizzes"
-            isActive={activeView === ActiveView.Quizzes}
-            onClick={() => setActiveView(ActiveView.Quizzes)}
-          />
-          <NavItem 
-            icon={ICONS.PROFILE}
-            label="Profile"
-            isActive={activeView === ActiveView.Profile}
-            onClick={() => setActiveView(ActiveView.Profile)}
-          />
-          <NavItem 
-            icon={ICONS.TESTS}
-            label="Tests"
-            isActive={activeView === ActiveView.Tests}
-            onClick={() => setActiveView(ActiveView.Tests)}
-          />
-          <NavItem 
-            icon={ICONS.CHALLENGES}
-            label="Challenges"
-            isActive={activeView === ActiveView.Challenges}
-            onClick={() => setActiveView(ActiveView.Challenges)}
-          />
-          <NavItem 
-            icon={ICONS.WALLET}
-            label="Wallet"
-            isActive={activeView === ActiveView.Wallet}
-            onClick={() => setActiveView(ActiveView.Wallet)}
-          />
-          <NavItem 
-            icon={ICONS.LEADERBOARD}
-            label="Leaderboard"
-            isActive={activeView === ActiveView.Leaderboard}
-            onClick={() => setActiveView(ActiveView.Leaderboard)}
-          />
-          <NavItem 
-            icon={ICONS.STUDY}
-            label="Study Mode"
-            isActive={activeView === ActiveView.Study}
-            onClick={() => setActiveView(ActiveView.Study)}
-          />
-          <NavItem 
-            icon={React.cloneElement(ICONS.BOOKMARK_EMPTY, {className:"h-6 w-6 mr-3"})}
-            label="Bookmarks"
-            isActive={activeView === ActiveView.Bookmarks}
-            onClick={() => setActiveView(ActiveView.Bookmarks)}
-          />
-          <NavItem 
-            icon={ICONS.CHATBOT}
-            label="AI Tutor"
-            isActive={activeView === ActiveView.Chatbot}
-            onClick={() => setActiveView(ActiveView.Chatbot)}
-          />
+            {navItems.map(item => (
+                <NavItem 
+                    key={item.label}
+                    icon={item.icon}
+                    label={item.label}
+                    isActive={activeView === item.view}
+                    onClick={() => handleNavItemClick(item.view)}
+                />
+            ))}
         </nav>
       </div>
     </>

@@ -1,4 +1,3 @@
-
 export interface Question {
   id: string;
   questionText: string;
@@ -7,9 +6,10 @@ export interface Question {
 }
 
 export interface Quiz {
-  id: string;
+  id:string;
   title: string;
   questions: Question[];
+  createdBy?: string; // email of the teacher who created it
 }
 
 export interface Test extends Quiz {
@@ -24,17 +24,27 @@ export interface Subject {
 }
 
 export interface UserProfile {
+    id: string;
     name: string;
+    email: string;
+    role: 'student' | 'teacher' | 'admin';
     avatar: string; // key for AVATARS object
     preferredTrade: string; // subjectId
     bio: string;
+    schoolName: string;
+    academicYear: string;
+    level: number;
+    xp: number;
+}
+
+export interface QuizAttempt {
+    score: number;
+    date: string; // ISO string
+    answers: number[]; // Index of the answer chosen for each question
 }
 
 export interface UserProgress {
-    [quizId: string]: {
-        score: number;
-        date: string; // ISO string
-    }
+    [quizId: string]: QuizAttempt;
 }
 
 export interface Achievement {
@@ -45,8 +55,11 @@ export interface Achievement {
 }
 
 export enum ActiveView {
-    Quizzes = 'Quizzes',
+    // Shared
     Profile = 'Profile',
+
+    // Student Views
+    Quizzes = 'Quizzes',
     Tests = 'Tests',
     Challenges = 'Challenges',
     Wallet = 'Wallet',
@@ -54,6 +67,17 @@ export enum ActiveView {
     Study = 'Study',
     Bookmarks = 'Bookmarks',
     Chatbot = 'Chatbot',
+    ReviewQuiz = 'ReviewQuiz',
+    
+    // Teacher Views
+    TeacherDashboard = 'Overview',
+    MyQuizzes = 'My Quizzes',
+    MyStudents = 'Students',
+
+    // Admin Views
+    AdminDashboard = 'Overview',
+    UserManagement = 'User Management',
+    ContentManagement = 'Content Management',
 }
 
 export interface Transaction {

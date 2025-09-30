@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Subject, Question } from '../types';
 import { getExplanation } from '../services/geminiService';
@@ -6,12 +5,11 @@ import Spinner from './Spinner';
 import { ICONS } from '../constants';
 
 interface StudyModeScreenProps {
-  subjects: Subject[];
+  subjects: Subject[]; // Now expects the pre-filtered list
   bookmarkedQuestionIds: Set<string>;
   onBookmarkToggle: (questionId: string) => void;
 }
 
-// FIX: Define QuestionCardProps interface
 interface QuestionCardProps {
   question: Question;
   isBookmarked: boolean;
@@ -37,13 +35,20 @@ const SubjectSelection: React.FC<{subjects: Subject[], onSelectSubject: (subject
             <p className="text-xl text-gray-300 mb-8">
                 Review all questions, get AI explanations, or use the new Flashcard mode.
             </p>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-4xl mx-auto">
-                {subjects.map((subject) => (
-                    <button key={subject.id} onClick={() => onSelectSubject(subject)} className="p-6 bg-gray-800 text-white font-bold rounded-lg shadow-lg hover:bg-purple-700 transform transition-transform duration-300 ease-in-out hover:scale-105">
-                        {subject.name}
-                    </button>
-                ))}
-            </div>
+             {subjects.length > 0 ? (
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-4xl mx-auto">
+                    {subjects.map((subject) => (
+                        <button key={subject.id} onClick={() => onSelectSubject(subject)} className="p-6 bg-gray-800 text-white font-bold rounded-lg shadow-lg hover:bg-purple-700 transform transition-transform duration-300 ease-in-out hover:scale-105">
+                            {subject.name}
+                        </button>
+                    ))}
+                </div>
+             ) : (
+                <div className="bg-gray-800 p-8 rounded-lg max-w-md mx-auto">
+                    <p className="text-xl text-gray-300">No subjects found for the current filter.</p>
+                    <p className="text-gray-400 mt-2">Try a different search term or change the category filter in the header.</p>
+                </div>
+             )}
         </div>
     );
 }
@@ -62,8 +67,8 @@ const SubjectReview: React.FC<{subject: Subject, onBack: () => void, bookmarkedQ
                 </div>
                 <div className="flex items-center gap-4">
                     <div className="bg-gray-800 p-1 rounded-lg flex space-x-1">
-                        <button onClick={() => setViewMode('list')} className={`px-3 py-1 text-sm rounded-md ${viewMode === 'list' ? 'bg-purple-600 text-white' : 'text-gray-700'}`}>List</button>
-                        <button onClick={() => setViewMode('flashcard')} className={`px-3 py-1 text-sm rounded-md ${viewMode === 'flashcard' ? 'bg-purple-600 text-white' : 'text-gray-700'}`}>Flashcard</button>
+                        <button onClick={() => setViewMode('list')} className={`px-3 py-1 text-sm rounded-md ${viewMode === 'list' ? 'bg-purple-600 text-white' : 'text-gray-400 hover:bg-gray-700'}`}>List</button>
+                        <button onClick={() => setViewMode('flashcard')} className={`px-3 py-1 text-sm rounded-md ${viewMode === 'flashcard' ? 'bg-purple-600 text-white' : 'text-gray-400 hover:bg-gray-700'}`}>Flashcard</button>
                     </div>
                     <button onClick={onBack} className="px-4 py-2 bg-transparent border border-purple-500 text-purple-400 font-semibold rounded-full hover:bg-purple-500 hover:text-white transition-colors duration-300">
                         Back

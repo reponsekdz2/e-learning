@@ -37,7 +37,7 @@ const CertificateModal: React.FC<CertificateModalProps> = ({ certificate, userNa
 
                     <div className="mt-8 flex justify-between items-center">
                          <div className="text-left">
-                            <p className="font-bold text-lg">Gemini Genius</p>
+                            <p className="font-bold text-lg">Igacyane</p>
                             <p className="text-xs text-gray-500">Rwanda TVET Edition</p>
                         </div>
                         <button 

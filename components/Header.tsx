@@ -12,6 +12,7 @@ interface HeaderProps {
   setSubjectFilter: (filter: 'All' | 'General' | 'TVET') => void;
   searchTerm: string;
   setSearchTerm: (term: string) => void;
+  xpForNextLevel: number;
 }
 
 const FilterButton: React.FC<{label: string, isActive: boolean, onClick: () => void}> = ({ label, isActive, onClick }) => (
@@ -25,7 +26,6 @@ const FilterButton: React.FC<{label: string, isActive: boolean, onClick: () => v
     </button>
 );
 
-
 const Header: React.FC<HeaderProps> = ({ 
     onMenuClick, 
     userProfile, 
@@ -35,7 +35,8 @@ const Header: React.FC<HeaderProps> = ({
     subjectFilter,
     setSubjectFilter,
     searchTerm,
-    setSearchTerm
+    setSearchTerm,
+    xpForNextLevel
 }) => {
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const notificationRef = useRef<HTMLDivElement>(null);
@@ -61,37 +62,29 @@ const Header: React.FC<HeaderProps> = ({
     };
   }, []);
 
-  const SearchBar = () => (
-     <div className="flex items-center bg-gray-700 rounded-full px-4 py-2 w-full">
-        {React.cloneElement(ICONS.SEARCH, { className: 'h-5 w-5 text-gray-400' })}
-        <input 
-          type="text" 
-          placeholder="Search subjects..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="bg-transparent text-white placeholder-gray-400 ml-2 focus:outline-none w-full"
-        />
-      </div>
-  );
+  const xpPercentage = (userProfile.xp / xpForNextLevel) * 100;
+
+  const filterAndSearchVisible = [
+      ActiveView.Quizzes, 
+      ActiveView.Study, 
+      ActiveView.MyQuizzes, 
+      ActiveView.ContentManagement,
+      ActiveView.Bookmarks
+  ].includes(activeView);
 
   return (
-    <header className="bg-gray-800 sticky top-0 z-20 lg:relative lg:bg-transparent">
-      {/* Main Header */}
-      <div className="flex items-center justify-between p-4 border-b border-gray-700 lg:border-none">
+    <header className="bg-gray-800 sticky top-0 z-20 border-b border-gray-700">
+      {/* Top Bar: Menu, Title, Notifications, Profile */}
+      <div className="flex items-center justify-between p-4">
         {/* Left side: Mobile Menu & Desktop Title */}
         <div className="flex items-center gap-4">
           <button onClick={onMenuClick} className="text-gray-400 hover:text-white lg:hidden">
             {ICONS.MENU}
           </button>
-          <div className="hidden lg:flex text-xl font-bold text-white capitalize">
-            {activeView === ActiveView.Quizzes ? "Select a Subject" : activeView}
+          <div className="text-xl font-bold text-white capitalize">
+            {activeView}
           </div>
         </div>
-
-        {/* Center: Search (Desktop) */}
-        {activeView === ActiveView.Quizzes && (
-            <div className="hidden md:flex flex-1 max-w-lg mx-4"><SearchBar /></div>
-        )}
 
         {/* Right side icons and profile */}
         <div className="flex items-center space-x-4">
@@ -126,8 +119,13 @@ const Header: React.FC<HeaderProps> = ({
           </div>
           <div className="flex items-center">
               <div className="text-right mr-3 hidden sm:block">
-                  <p className="font-semibold text-white">{userProfile.name}</p>
-                  <p className="text-xs text-gray-400">Student</p>
+                  <div className="flex items-center justify-end">
+                    <p className="font-semibold text-white">{userProfile.name}</p>
+                    {userProfile.role === 'student' && <span className="ml-2 px-2 py-0.5 bg-yellow-400 text-yellow-900 text-xs font-bold rounded-full">LVL {userProfile.level}</span>}
+                  </div>
+                  {userProfile.role === 'student' && <div className="w-28 bg-gray-600 rounded-full h-1.5 mt-1">
+                      <div className="bg-purple-500 h-1.5 rounded-full" style={{width: `${xpPercentage}%`}}></div>
+                  </div>}
               </div>
               <div className="w-10 h-10 rounded-full bg-purple-600 border-2 border-purple-400 overflow-hidden">
                   {React.cloneElement(AVATARS[userProfile.avatar] || AVATARS['avatar1'], {className: "w-full h-full p-1 text-white"})}
@@ -136,14 +134,25 @@ const Header: React.FC<HeaderProps> = ({
         </div>
       </div>
 
-      {/* Filters and Search for mobile/tablet */}
-      {activeView === ActiveView.Quizzes && (
-          <div className="lg:hidden p-4 bg-gray-800 border-b border-gray-700 space-y-4">
-              <div className="md:hidden"><SearchBar /></div>
-              <div className="flex items-center bg-gray-900 p-1 rounded-lg space-x-2">
+      {/* Bottom Bar: Filters & Search (if applicable) */}
+      {filterAndSearchVisible && (
+          <div className="p-4 pt-0 md:flex md:items-center md:justify-between md:gap-4">
+              <div className="flex items-center bg-gray-900 p-1 rounded-lg space-x-1 mb-4 md:mb-0 w-full md:w-auto">
                   <FilterButton label="All Subjects" isActive={subjectFilter === 'All'} onClick={() => setSubjectFilter('All')} />
                   <FilterButton label="General" isActive={subjectFilter === 'General'} onClick={() => setSubjectFilter('General')} />
                   <FilterButton label="TVET" isActive={subjectFilter === 'TVET'} onClick={() => setSubjectFilter('TVET')} />
+              </div>
+              <div className="flex-1 max-w-lg">
+                  <div className="flex items-center bg-gray-700 rounded-full px-4 py-2 w-full">
+                      {React.cloneElement(ICONS.SEARCH, { className: 'h-5 w-5 text-gray-400' })}
+                      <input 
+                        type="text" 
+                        placeholder="Search..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="bg-transparent text-white placeholder-gray-400 ml-2 focus:outline-none w-full"
+                      />
+                  </div>
               </div>
           </div>
       )}

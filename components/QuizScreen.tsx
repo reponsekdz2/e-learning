@@ -8,7 +8,7 @@ interface QuizScreenProps {
   question: Question;
   questionNumber: number;
   totalQuestions: number;
-  onAnswer: (isCorrect: boolean) => void;
+  onAnswer: (isCorrect: boolean, answerIndex: number) => void;
   isBookmarked: boolean;
   onBookmarkToggle: (questionId: string) => void;
 }
@@ -36,7 +36,7 @@ const QuizScreen: React.FC<QuizScreenProps> = ({ question, questionNumber, total
     const isCorrect = index === question.correctAnswerIndex;
 
     setTimeout(() => {
-      onAnswer(isCorrect);
+      onAnswer(isCorrect, index);
     }, 1500);
   };
 

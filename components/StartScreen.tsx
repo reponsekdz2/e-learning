@@ -12,10 +12,10 @@ const StartScreen: React.FC<StartScreenProps> = ({ onStart }) => {
         {React.cloneElement(ICONS.LOGO, { className: 'h-24 w-24 text-purple-400' })}
       </div>
       <h1 className="text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 mb-4">
-        Gemini Genius
+        Igacyane
       </h1>
       <p className="text-xl text-gray-300 mb-8 max-w-lg">
-        Your AI-powered guide to mastering General & TVET subjects in Rwanda.
+        Rwanda's AI-powered learning platform for General & TVET subjects.
       </p>
       <button
         onClick={onStart}
