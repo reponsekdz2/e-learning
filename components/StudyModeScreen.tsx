@@ -2,19 +2,22 @@ import React, { useState } from 'react';
 import { Subject, Question } from '../types';
 import { getExplanation } from '../services/geminiService';
 import Spinner from './Spinner';
+import { ICONS } from '../constants';
 
 interface StudyModeScreenProps {
   subjects: Subject[];
+  bookmarkedQuestionIds: Set<string>;
+  onBookmarkToggle: (questionId: string) => void;
 }
 
-const StudyModeScreen: React.FC<StudyModeScreenProps> = ({ subjects }) => {
+const StudyModeScreen: React.FC<StudyModeScreenProps> = ({ subjects, bookmarkedQuestionIds, onBookmarkToggle }) => {
   const [selectedSubject, setSelectedSubject] = useState<Subject | null>(null);
 
   if (!selectedSubject) {
     return <SubjectSelection onSelectSubject={setSelectedSubject} subjects={subjects} />;
   }
   
-  return <SubjectReview subject={selectedSubject} onBack={() => setSelectedSubject(null)} />;
+  return <SubjectReview subject={selectedSubject} onBack={() => setSelectedSubject(null)} bookmarkedQuestionIds={bookmarkedQuestionIds} onBookmarkToggle={onBookmarkToggle} />;
 };
 
 
@@ -44,7 +47,13 @@ const SubjectSelection: React.FC<{subjects: Subject[], onSelectSubject: (subject
 }
 
 // Sub-component for reviewing a subject's questions
-const SubjectReview: React.FC<{subject: Subject, onBack: () => void}> = ({ subject, onBack }) => {
+interface SubjectReviewProps {
+    subject: Subject;
+    onBack: () => void;
+    bookmarkedQuestionIds: Set<string>;
+    onBookmarkToggle: (questionId: string) => void;
+}
+const SubjectReview: React.FC<SubjectReviewProps> = ({ subject, onBack, bookmarkedQuestionIds, onBookmarkToggle }) => {
     const allQuestions = subject.quizzes.flatMap(quiz => quiz.questions);
 
     return (
@@ -62,8 +71,13 @@ const SubjectReview: React.FC<{subject: Subject, onBack: () => void}> = ({ subje
                 </button>
             </div>
             <div className="space-y-6">
-                {allQuestions.map((question, index) => (
-                    <QuestionCard key={index} question={question} />
+                {allQuestions.map((question) => (
+                    <QuestionCard 
+                        key={question.id} 
+                        question={question} 
+                        isBookmarked={bookmarkedQuestionIds.has(question.id)}
+                        onBookmarkToggle={onBookmarkToggle}
+                    />
                 ))}
             </div>
         </div>
@@ -71,7 +85,12 @@ const SubjectReview: React.FC<{subject: Subject, onBack: () => void}> = ({ subje
 }
 
 // Sub-component for a single question card
-const QuestionCard: React.FC<{question: Question}> = ({ question }) => {
+interface QuestionCardProps {
+    question: Question;
+    isBookmarked: boolean;
+    onBookmarkToggle: (questionId: string) => void;
+}
+const QuestionCard: React.FC<QuestionCardProps> = ({ question, isBookmarked, onBookmarkToggle }) => {
     const [isRevealed, setIsRevealed] = useState(false);
     const [explanation, setExplanation] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -92,8 +111,18 @@ const QuestionCard: React.FC<{question: Question}> = ({ question }) => {
     };
 
     return (
-        <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
-            <h3 className="text-xl font-semibold text-white mb-4" dangerouslySetInnerHTML={{ __html: question.questionText }}></h3>
+        <div className="bg-gray-800 p-6 rounded-lg border border-gray-700 relative">
+            <button 
+                onClick={() => onBookmarkToggle(question.id)}
+                className="absolute top-4 right-4 text-gray-400 hover:text-yellow-400 transition-colors"
+                aria-label={isBookmarked ? 'Remove bookmark' : 'Add bookmark'}
+            >
+                {isBookmarked ? 
+                    React.cloneElement(ICONS.BOOKMARK_FILLED, { className: "h-6 w-6 text-yellow-400" }) :
+                    React.cloneElement(ICONS.BOOKMARK_EMPTY, { className: "h-6 w-6" })
+                }
+            </button>
+            <h3 className="text-xl font-semibold text-white mb-4 pr-8" dangerouslySetInnerHTML={{ __html: question.questionText }}></h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
                 {question.options.map((option, index) => (
                     <div key={index} className={`p-3 rounded-md text-white transition-colors ${getOptionClass(index)}`}>

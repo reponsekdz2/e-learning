@@ -1,35 +1,62 @@
 import React from 'react';
-import { UserProfile } from '../types';
+import { UserProfile, ActiveView, SubjectCategory } from '../types';
 import { ICONS, AVATARS } from '../constants';
+
+const FilterButton: React.FC<{
+    label: string;
+    isActive: boolean;
+    onClick: () => void;
+}> = ({ label, isActive, onClick }) => {
+    const activeClass = isActive ? 'bg-purple-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600';
+    return (
+        <button
+            onClick={onClick}
+            className={`px-3 py-1.5 rounded-md font-semibold text-sm transition-colors duration-200 ${activeClass}`}
+        >
+            {label}
+        </button>
+    );
+};
+
 
 interface HeaderProps {
     userProfile: UserProfile;
+    activeView: ActiveView;
+    activeFilter: SubjectCategory | 'All';
+    onFilterChange: (filter: SubjectCategory | 'All') => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ userProfile }) => {
+const Header: React.FC<HeaderProps> = ({ userProfile, activeView, activeFilter, onFilterChange }) => {
     const avatarSVG = AVATARS[userProfile.avatar] || AVATARS['avatar1'];
 
     return (
         <header className="w-full bg-gray-800 p-4 border-b border-gray-700 flex justify-between items-center shrink-0">
-            {/* Logo and App Name */}
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-4">
                 {ICONS.LOGO}
                 <span className="text-xl font-bold text-white">Gemini Genius</span>
             </div>
 
+            {/* Contextual Filters */}
+            {activeView === ActiveView.Quizzes && (
+                <div className="hidden md:flex items-center justify-center space-x-2">
+                    <FilterButton label="All Subjects" isActive={activeFilter === 'All'} onClick={() => onFilterChange('All')} />
+                    <FilterButton label="General" isActive={activeFilter === 'General'} onClick={() => onFilterChange('General')} />
+                    <FilterButton label="TVET" isActive={activeFilter === 'TVET'} onClick={() => onFilterChange('TVET')} />
+                </div>
+            )}
+
             {/* Search Bar */}
-            <div className="relative flex-1 max-w-lg mx-8">
+            <div className="relative flex-1 max-w-xs mx-4">
                 <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
                     {ICONS.SEARCH}
                 </span>
                 <input
                     type="text"
-                    placeholder="Search for subjects, quizzes..."
+                    placeholder="Search..."
                     className="w-full bg-gray-700 border border-gray-600 rounded-md py-2 pl-10 pr-4 text-white placeholder-gray-400 focus:ring-purple-500 focus:border-purple-500"
                 />
             </div>
             
-            {/* Right side icons & Profile */}
             <div className="flex items-center space-x-6">
                 <button className="relative text-gray-400 hover:text-white">
                     {ICONS.NOTIFICATION}

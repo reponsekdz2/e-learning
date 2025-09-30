@@ -29,7 +29,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeView, setActiveView }) => {
   return (
     <div className="w-64 bg-gray-800 h-screen p-4 flex flex-col border-r border-gray-700 fixed top-0 left-0">
       <div className="mb-8 text-center">
-        <h1 className="text-2xl font-bold text-white">Quiz Hub</h1>
+        <h1 className="text-2xl font-bold text-white">Gemini Genius</h1>
         <p className="text-sm text-gray-400">Rwanda Edition</p>
       </div>
       <nav className="flex flex-col space-y-2">
@@ -74,6 +74,18 @@ const Sidebar: React.FC<SidebarProps> = ({ activeView, setActiveView }) => {
           label="Study Mode"
           isActive={activeView === ActiveView.Study}
           onClick={() => setActiveView(ActiveView.Study)}
+        />
+        <NavItem 
+          icon={React.cloneElement(ICONS.BOOKMARK_EMPTY, {className:"h-6 w-6 mr-3"})}
+          label="Bookmarks"
+          isActive={activeView === ActiveView.Bookmarks}
+          onClick={() => setActiveView(ActiveView.Bookmarks)}
+        />
+         <NavItem 
+          icon={ICONS.CHATBOT}
+          label="AI Tutor"
+          isActive={activeView === ActiveView.Chatbot}
+          onClick={() => setActiveView(ActiveView.Chatbot)}
         />
       </nav>
     </div>

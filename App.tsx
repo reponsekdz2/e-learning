@@ -1,8 +1,8 @@
 import React, { useState, useMemo } from 'react';
-import { GameState, Quiz, Subject, ActiveView, SubjectCategory, UserProfile } from './types';
-import { subjects } from './data/quizzes';
-import { tests } from './data/tests';
-import { allChallenges } from './data/challenges';
+import { GameState, Quiz, Subject, ActiveView, SubjectCategory, UserProfile, Question } from './types';
+import { subjects as rawSubjects } from './data/quizzes';
+import { tests as rawTests } from './data/tests';
+import { allChallenges as rawChallenges } from './data/challenges';
 import SubjectSelectionScreen from './components/SubjectSelectionScreen';
 import QuizSelectionScreen from './components/QuizSelectionScreen';
 import QuizScreen from './components/QuizScreen';
@@ -16,6 +16,25 @@ import ChallengesScreen from './components/ChallengesScreen';
 import WalletScreen from './components/WalletScreen';
 import LeaderboardScreen from './components/LeaderboardScreen';
 import StudyModeScreen from './components/StudyModeScreen';
+import ChatbotScreen from './components/ChatbotScreen';
+import BookmarksScreen from './components/BookmarksScreen';
+
+// Helper to add unique IDs to questions
+const processQuizzes = <T extends { quizzes: Quiz[] }>(data: T[]): T[] =>
+  data.map(subject => ({
+    ...subject,
+    quizzes: subject.quizzes.map(quiz => ({
+      ...quiz,
+      questions: quiz.questions.map((q, index) => ({ ...q, id: `${quiz.id}-${index}` })),
+    })),
+  }));
+
+// FIX: Added 'id: string' to the generic constraint to ensure that any item passed to this function has an 'id' property.
+const processTestsOrChallenges = <T extends { id: string; questions: Question[] }>(data: T[]): T[] =>
+  data.map(item => ({
+    ...item,
+    questions: item.questions.map((q, index) => ({ ...q, id: `${item.id}-${index}` })),
+  }));
 
 const App: React.FC = () => {
   const [gameState, setGameState] = useState<GameState>(GameState.SubjectSelection);
@@ -23,7 +42,7 @@ const App: React.FC = () => {
   const [currentQuiz, setCurrentQuiz] = useState<Quiz | null>(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [score, setScore] = useState(0);
-
+  
   const [activeView, setActiveView] = useState<ActiveView>(ActiveView.Quizzes);
   const [subjectFilter, setSubjectFilter] = useState<SubjectCategory | 'All'>('All');
   
@@ -34,22 +53,60 @@ const App: React.FC = () => {
     preferredTrade: 'software-development',
   });
   const [walletBalance, setWalletBalance] = useState(1250);
+  const [bookmarkedQuestionIds, setBookmarkedQuestionIds] = useState<Set<string>>(new Set());
+  
+  // Memoize processed data to prevent re-computation on every render
+  const subjects = useMemo(() => processQuizzes(rawSubjects), []);
+  const tests = useMemo(() => processTestsOrChallenges(rawTests), []);
+  const allChallenges = useMemo(() => rawChallenges.map(challenge => ({
+    ...challenge,
+    quiz: {
+      ...challenge.quiz,
+      questions: challenge.quiz.questions.map((q, index) => ({ ...q, id: `${challenge.quiz.id}-${index}` }))
+    }
+  })), []);
+  
+  const allQuestionsMap = useMemo(() => {
+    const map = new Map<string, Question>();
+    const allData = [...subjects.flatMap(s => s.quizzes), ...tests, ...allChallenges.map(c => c.quiz)];
+    allData.forEach(item => {
+      item.questions.forEach(q => map.set(q.id, q));
+    });
+    return map;
+  }, [subjects, tests, allChallenges]);
+
+  const bookmarkedQuestions = useMemo(() => {
+    return Array.from(bookmarkedQuestionIds)
+      .map(id => allQuestionsMap.get(id))
+      .filter((q): q is Question => q !== undefined);
+  }, [bookmarkedQuestionIds, allQuestionsMap]);
 
   const dailyChallenge = useMemo(() => {
-    // This creates a new challenge each day of the year
     const dayOfYear = Math.floor((new Date().getTime() - new Date(new Date().getFullYear(), 0, 0).getTime()) / (1000 * 60 * 60 * 24));
     return allChallenges[dayOfYear % allChallenges.length];
-  }, []);
+  }, [allChallenges]);
 
   const selectedSubject = useMemo(() => {
     if (!selectedSubjectId) return null;
     return subjects.find(s => s.id === selectedSubjectId) || null;
-  }, [selectedSubjectId]);
+  }, [selectedSubjectId, subjects]);
   
   const filteredSubjects = useMemo(() => {
     if (subjectFilter === 'All') return subjects;
     return subjects.filter(subject => subject.category === subjectFilter);
-  }, [subjectFilter]);
+  }, [subjectFilter, subjects]);
+
+  const handleBookmarkToggle = (questionId: string) => {
+    setBookmarkedQuestionIds(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(questionId)) {
+        newSet.delete(questionId);
+      } else {
+        newSet.add(questionId);
+      }
+      return newSet;
+    });
+  };
 
   const handleSelectSubject = (subjectId: string) => {
     setSelectedSubjectId(subjectId);
@@ -89,7 +146,6 @@ const App: React.FC = () => {
     if (isCorrect) {
       setScore(prevScore => prevScore + 1);
     }
-
     const nextQuestionIndex = currentQuestionIndex + 1;
     if (currentQuiz && nextQuestionIndex < currentQuiz.questions.length) {
       setCurrentQuestionIndex(nextQuestionIndex);
@@ -99,7 +155,6 @@ const App: React.FC = () => {
   };
 
   const handleClaimPrize = () => {
-    // Award points only for perfect scores on regular quizzes
     if (currentQuiz && score === currentQuiz.questions.length) {
         setWalletBalance(prev => prev + 100);
     }
@@ -113,62 +168,50 @@ const App: React.FC = () => {
   };
   
   const resetToHome = () => {
-    handleRestart(); // Resets quiz state
-    setActiveView(ActiveView.Quizzes); // Go back to quizzes view
+    handleRestart();
+    setActiveView(ActiveView.Quizzes);
     setSubjectFilter('All');
   }
 
   const handleRedeemPoints = (amount: number) => {
     setWalletBalance(prev => prev - amount);
-    // In a real app, this would also trigger an API call to record the transaction.
   };
 
   const renderQuizContent = () => {
     switch (gameState) {
       case GameState.SubjectSelection:
-        return <SubjectSelectionScreen
-                    subjects={filteredSubjects}
-                    onSelectSubject={handleSelectSubject}
-                    activeFilter={subjectFilter}
-                    setFilter={setSubjectFilter}
-                />;
-      
+        return <SubjectSelectionScreen subjects={filteredSubjects} onSelectSubject={handleSelectSubject} />;
       case GameState.QuizSelection:
         if (selectedSubject) {
           return <QuizSelectionScreen subject={selectedSubject} onStartQuiz={startQuiz} onBack={handleBackToSubjects} />;
         }
         return null; 
-
       case GameState.Playing:
         if (currentQuiz) {
+          const question = currentQuiz.questions[currentQuestionIndex];
           return (
             <QuizScreen
-              question={currentQuiz.questions[currentQuestionIndex]}
+              key={question.id}
+              question={question}
               questionNumber={currentQuestionIndex + 1}
               totalQuestions={currentQuiz.questions.length}
               onAnswer={handleAnswer}
+              isBookmarked={bookmarkedQuestionIds.has(question.id)}
+              onBookmarkToggle={handleBookmarkToggle}
             />
           );
         }
         return null;
-
       case GameState.Finished:
-          if(currentQuiz) {
-            return (
-              <EndScreen
-                score={score}
-                totalQuestions={currentQuiz.questions.length}
-                onRestart={handleRestart}
-                onClaimPrize={handleClaimPrize}
-              />
-            );
-          }
-          return null;
-
+        if(currentQuiz) {
+          return (
+            <EndScreen score={score} totalQuestions={currentQuiz.questions.length} onRestart={handleRestart} onClaimPrize={handleClaimPrize} />
+          );
+        }
+        return null;
       case GameState.Prize:
         const wasPerfectScore = currentQuiz ? score === currentQuiz.questions.length : false;
         return <PrizeScreen onRestart={resetToHome} pointsAwarded={wasPerfectScore ? 100 : 0} />;
-
       default:
         return null;
     }
@@ -189,7 +232,11 @@ const App: React.FC = () => {
       case ActiveView.Leaderboard:
         return <LeaderboardScreen />;
       case ActiveView.Study:
-        return <StudyModeScreen subjects={subjects} />;
+        return <StudyModeScreen subjects={subjects} bookmarkedQuestionIds={bookmarkedQuestionIds} onBookmarkToggle={handleBookmarkToggle} />;
+      case ActiveView.Bookmarks:
+        return <BookmarksScreen bookmarkedQuestions={bookmarkedQuestions} onBookmarkToggle={handleBookmarkToggle} />;
+      case ActiveView.Chatbot:
+        return <ChatbotScreen />;
       default:
         return null;
     }
@@ -199,7 +246,7 @@ const App: React.FC = () => {
     <div className="min-h-screen bg-gray-900 text-white">
       <Sidebar activeView={activeView} setActiveView={setActiveView} />
       <div className="ml-64 flex flex-col h-screen">
-        <Header userProfile={userProfile} />
+        <Header userProfile={userProfile} activeView={activeView} activeFilter={subjectFilter} onFilterChange={setSubjectFilter} />
         <main className="flex-1 flex items-center justify-center p-4 overflow-y-auto">
           <div className="w-full max-w-4xl">
             {renderActiveView()}

@@ -2,15 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { Question } from '../types';
 import { getExplanation } from '../services/geminiService';
 import Spinner from './Spinner';
+import { ICONS } from '../constants';
 
 interface QuizScreenProps {
   question: Question;
   questionNumber: number;
   totalQuestions: number;
   onAnswer: (isCorrect: boolean) => void;
+  isBookmarked: boolean;
+  onBookmarkToggle: (questionId: string) => void;
 }
 
-const QuizScreen: React.FC<QuizScreenProps> = ({ question, questionNumber, totalQuestions, onAnswer }) => {
+const QuizScreen: React.FC<QuizScreenProps> = ({ question, questionNumber, totalQuestions, onAnswer, isBookmarked, onBookmarkToggle }) => {
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [isAnswered, setIsAnswered] = useState(false);
   const [explanation, setExplanation] = useState<string>('');
@@ -60,7 +63,17 @@ const QuizScreen: React.FC<QuizScreenProps> = ({ question, questionNumber, total
 
   return (
     <>
-      <div className="w-full max-w-2xl mx-auto p-4 md:p-8 bg-gray-800 rounded-2xl shadow-2xl border border-gray-700">
+      <div className="w-full max-w-2xl mx-auto p-4 md:p-8 bg-gray-800 rounded-2xl shadow-2xl border border-gray-700 relative">
+        <button 
+            onClick={() => onBookmarkToggle(question.id)}
+            className="absolute top-4 right-4 text-gray-400 hover:text-yellow-400 transition-colors"
+            aria-label={isBookmarked ? 'Remove bookmark' : 'Add bookmark'}
+        >
+            {isBookmarked ? 
+                React.cloneElement(ICONS.BOOKMARK_FILLED, { className: "h-7 w-7 text-yellow-400" }) :
+                React.cloneElement(ICONS.BOOKMARK_EMPTY, { className: "h-7 w-7" })
+            }
+        </button>
         <div className="mb-6">
           <p className="text-lg font-semibold text-purple-400">
             Question {questionNumber} / {totalQuestions}

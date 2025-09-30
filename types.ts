@@ -1,4 +1,5 @@
 export interface Question {
+  id: string; // Unique identifier, e.g., "quiz-id-index"
   questionText: string;
   options: string[];
   correctAnswerIndex: number;
@@ -20,7 +21,7 @@ export interface Subject {
 }
 
 export interface Test {
-  id: string;
+  id:string;
   title: string;
   subjectId: string;
   questions: Question[];
@@ -48,6 +49,8 @@ export enum ActiveView {
   Wallet,
   Leaderboard,
   Study,
+  Bookmarks,
+  Chatbot,
 }
 
 export interface UserProfile {
