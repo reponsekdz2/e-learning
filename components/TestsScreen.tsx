@@ -9,6 +9,7 @@ interface TestsScreenProps {
 
 const TestsScreen: React.FC<TestsScreenProps> = ({ userPreferredTradeId, onStartTest }) => {
   const recommendedTest = tests.find(t => t.subjectId === userPreferredTradeId);
+  const otherTests = tests.filter(t => t.id !== recommendedTest?.id);
 
   return (
     <div className="w-full max-w-2xl mx-auto">
@@ -37,21 +38,36 @@ const TestsScreen: React.FC<TestsScreenProps> = ({ userPreferredTradeId, onStart
                 />
             </div>
         )}
+        
+        {otherTests.length > 0 && (
+          <div>
+              <h3 className="text-lg font-semibold text-purple-400 mb-2">{recommendedTest ? 'Other Available Tests' : 'All Available Tests'}</h3>
+              <div className="space-y-3">
+                  {otherTests.map(test => (
+                      <TestCard 
+                          key={test.id}
+                          title={test.title}
+                          subjectName={subjects.find(s => s.id === test.subjectId)?.name || ''}
+                          questionCount={test.questions.length}
+                          onClick={() => onStartTest(test.id)}
+                      />
+                  ))}
+              </div>
+          </div>
+        )}
 
-        <div>
-            <h3 className="text-lg font-semibold text-purple-400 mb-2">All Available Tests</h3>
-            <div className="space-y-3">
-                 {tests.filter(t => t.id !== recommendedTest?.id).map(test => (
-                    <TestCard 
-                        key={test.id}
-                        title={test.title}
-                        subjectName={subjects.find(s => s.id === test.subjectId)?.name || ''}
-                        questionCount={test.questions.length}
-                        onClick={() => onStartTest(test.id)}
-                    />
-                ))}
+        {tests.length === 0 && (
+            <div className="text-center py-8 bg-gray-800 rounded-lg">
+                <p className="text-gray-400">No formal tests are available at the moment. Please check back later.</p>
             </div>
-        </div>
+        )}
+
+         {!recommendedTest && otherTests.length > 0 && (
+            <div className="text-center mt-6 p-4 bg-gray-800 rounded-lg border border-gray-700">
+                <p className="text-gray-300">You have no recommended test. Go to your <span className="font-bold text-purple-400">Profile</span> to set your preferred trade!</p>
+            </div>
+        )}
+
       </div>
     </div>
   );

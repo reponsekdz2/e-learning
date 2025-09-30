@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { GameState, Quiz, Subject, ActiveView, SubjectCategory, UserProfile } from './types';
 import { subjects } from './data/quizzes';
 import { tests } from './data/tests';
-import { dailyChallenge } from './data/challenges';
+import { allChallenges } from './data/challenges';
 import SubjectSelectionScreen from './components/SubjectSelectionScreen';
 import QuizSelectionScreen from './components/QuizSelectionScreen';
 import QuizScreen from './components/QuizScreen';
@@ -28,9 +28,17 @@ const App: React.FC = () => {
   
   const [userProfile, setUserProfile] = useState<UserProfile>({
     name: 'Kwizera Alex',
+    bio: 'Aspiring software developer with a passion for learning new technologies and solving complex problems.',
+    avatar: 'avatar1',
     preferredTrade: 'software-development',
   });
   const [walletBalance, setWalletBalance] = useState(1250);
+
+  const dailyChallenge = useMemo(() => {
+    // This creates a new challenge each day of the year
+    const dayOfYear = Math.floor((new Date().getTime() - new Date(new Date().getFullYear(), 0, 0).getTime()) / (1000 * 60 * 60 * 24));
+    return allChallenges[dayOfYear % allChallenges.length];
+  }, []);
 
   const selectedSubject = useMemo(() => {
     if (!selectedSubjectId) return null;
@@ -171,7 +179,7 @@ const App: React.FC = () => {
       case ActiveView.Tests:
         return <TestsScreen userPreferredTradeId={userProfile.preferredTrade} onStartTest={handleStartTest} />;
       case ActiveView.Challenges:
-        return <ChallengesScreen onStartChallenge={handleStartChallenge} />;
+        return <ChallengesScreen dailyChallenge={dailyChallenge} onStartChallenge={handleStartChallenge} />;
       case ActiveView.Wallet:
         return <WalletScreen balance={walletBalance} />;
       case ActiveView.Leaderboard:

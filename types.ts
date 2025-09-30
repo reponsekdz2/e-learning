@@ -51,6 +51,8 @@ export enum ActiveView {
 
 export interface UserProfile {
     name: string;
+    bio: string;
+    avatar: string; // e.g., 'avatar1', 'avatar2'
     preferredTrade: string; // Corresponds to a subject ID
 }
 

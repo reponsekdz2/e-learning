@@ -1,16 +1,19 @@
 import React from 'react';
 import { ICONS } from '../constants';
-import { dailyChallenge } from '../data/challenges';
+// FIX: The DailyChallenge type should be imported from the central types file.
+import { DailyChallenge } from '../types';
 
 interface ChallengesScreenProps {
+    dailyChallenge: DailyChallenge;
     onStartChallenge: () => void;
 }
 
-const ChallengesScreen: React.FC<ChallengesScreenProps> = ({ onStartChallenge }) => {
+const ChallengesScreen: React.FC<ChallengesScreenProps> = ({ dailyChallenge, onStartChallenge }) => {
   return (
     <div className="w-full max-w-xl mx-auto text-center">
         <div className="flex justify-center mb-4 text-purple-400">
-           {React.cloneElement(ICONS.CHALLENGES, { className: "h-24 w-24"})}
+           {/* FIX: Cast element to allow className prop for React.cloneElement */}
+           {React.cloneElement(ICONS.CHALLENGES as React.ReactElement<{className?: string}>, { className: "h-24 w-24"})}
         </div>
         <h2 className="text-4xl font-bold text-white mb-2">Challenges</h2>
         <p className="text-xl text-gray-300 mb-8">
