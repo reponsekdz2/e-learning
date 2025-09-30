@@ -3,8 +3,39 @@ import { Subject } from '../types';
 export const subjects: Subject[] = [
   // General Subjects
   {
+    id: 'kinyarwanda',
+    name: 'Kinyarwanda',
+    category: 'General',
+    quizzes: [
+      {
+        id: 'kin-1',
+        title: 'Insigamigani',
+        questions: [
+          { questionText: 'Umusaza n\'inkoni ye bisobanura iki?', options: ['Gusaza neza', 'Kuba umuntu adatandukana n\'icyo akunda', 'Kugira inkoni nziza', 'Gukunda abasaza'], correctAnswerIndex: 1 },
+          { questionText: 'Icyo umutima ushaka amata agira...', options: ['umuhondo', 'umweru', 'ubururu', 'igikara'], correctAnswerIndex: 0 },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'english',
+    name: 'English',
+    category: 'General',
+    quizzes: [
+       {
+        id: 'eng-1',
+        title: 'Grammar Basics',
+        questions: [
+          { questionText: 'Which of the following is a verb?', options: ['Quickly', 'Beautiful', 'Run', 'House'], correctAnswerIndex: 2 },
+          { questionText: 'What is the plural of "mouse"?', options: ['Mouses', 'Mice', 'Mouse', 'Meese'], correctAnswerIndex: 1 },
+        ]
+      }
+    ]
+  },
+  {
     id: 'biology',
     name: 'Biology',
+    category: 'General',
     quizzes: [
       {
         id: 'bio-1',
@@ -19,9 +50,84 @@ export const subjects: Subject[] = [
       }
     ]
   },
+   {
+    id: 'chemistry',
+    name: 'Chemistry',
+    category: 'General',
+    quizzes: [
+      {
+        id: 'chem-1',
+        title: 'Chemical Elements',
+        questions: [
+          { questionText: 'What is the chemical symbol for Gold?', options: ['Ag', 'Au', 'G', 'Go'], correctAnswerIndex: 1 },
+          { questionText: 'Which element is most abundant in the Earth\'s atmosphere?', options: ['Oxygen', 'Hydrogen', 'Nitrogen', 'Carbon'], correctAnswerIndex: 2 },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'physics',
+    name: 'Physics',
+    category: 'General',
+    quizzes: [
+      {
+        id: 'phy-1',
+        title: 'Laws of Motion',
+        questions: [
+          { questionText: 'Who formulated the laws of motion?', options: ['Albert Einstein', 'Galileo Galilei', 'Isaac Newton', 'Nikola Tesla'], correctAnswerIndex: 2 },
+          { questionText: 'What is the unit of force?', options: ['Watt', 'Joule', 'Newton', 'Pascal'], correctAnswerIndex: 2 },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'mathematics',
+    name: 'Mathematics',
+    category: 'General',
+    quizzes: [
+      {
+        id: 'math-1',
+        title: 'Basic Algebra',
+        questions: [
+          { questionText: 'What is the value of x if x + 5 = 10?', options: ['3', '5', '10', '15'], correctAnswerIndex: 1 },
+          { questionText: 'What is 7 multiplied by 8?', options: ['49', '54', '56', '63'], correctAnswerIndex: 2 },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'entrepreneurship',
+    name: 'Entrepreneurship',
+    category: 'General',
+    quizzes: [
+       {
+        id: 'ent-1',
+        title: 'Business Basics',
+        questions: [
+          { questionText: 'What is a business plan?', options: ['A financial statement', 'A marketing brochure', 'A document outlining business goals and how to achieve them', 'A list of employees'], correctAnswerIndex: 2 },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'geography',
+    name: 'Geography',
+    category: 'General',
+    quizzes: [
+       {
+        id: 'geo-1',
+        title: 'World Capitals',
+        questions: [
+          { questionText: 'What is the capital of Rwanda?', options: ['Kigali', 'Butare', 'Gisenyi', 'Kibuye'], correctAnswerIndex: 0 },
+          { questionText: 'What is the longest river in the world?', options: ['Amazon', 'Nile', 'Yangtze', 'Mississippi'], correctAnswerIndex: 1 },
+        ]
+      }
+    ]
+  },
   {
     id: 'history',
     name: 'History',
+    category: 'General',
     quizzes: [
        {
         id: 'hist-1',
@@ -37,6 +143,7 @@ export const subjects: Subject[] = [
   {
     id: 'software-development',
     name: 'Software Development',
+    category: 'TVET',
     quizzes: [
       {
         id: 'sd-1',
@@ -59,9 +166,25 @@ export const subjects: Subject[] = [
       }
     ]
   },
+    {
+    id: 'wood-technology',
+    name: 'Wood Technology',
+    category: 'TVET',
+    quizzes: [
+      {
+        id: 'wood-1',
+        title: 'Tree Species',
+        questions: [
+          { questionText: 'Which of these is a hardwood?', options: ['Pine', 'Fir', 'Oak', 'Spruce'], correctAnswerIndex: 2 },
+          { questionText: 'What is the process of drying timber called?', options: ['Seasoning', 'Curing', 'Dehydrating', 'Baking'], correctAnswerIndex: 0 },
+        ]
+      }
+    ]
+  },
   {
     id: 'networking',
     name: 'Networking',
+    category: 'TVET',
     quizzes: [
       {
         id: 'net-1',
@@ -72,5 +195,47 @@ export const subjects: Subject[] = [
         ]
       }
     ]
-  }
+  },
+    {
+    id: 'multimedia',
+    name: 'Multimedia',
+    category: 'TVET',
+    quizzes: [
+      {
+        id: 'mm-1',
+        title: 'Color Models',
+        questions: [
+          { questionText: 'What does RGB stand for?', options: ['Red Green Blue', 'Red Grey Black', 'Royal Gold Brown', 'Rapid Graphic Builder'], correctAnswerIndex: 0 },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'nursing',
+    name: 'Nursing',
+    category: 'TVET',
+    quizzes: [
+      {
+        id: 'nur-1',
+        title: 'Basic First Aid',
+        questions: [
+          { questionText: 'What is the first step in assessing an emergency situation?', options: ['Call for help', 'Check for danger', 'Check for response', 'Administer CPR'], correctAnswerIndex: 1 },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'accounting',
+    name: 'Accounting',
+    category: 'TVET',
+    quizzes: [
+      {
+        id: 'acc-1',
+        title: 'Fundamental Concepts',
+        questions: [
+          { questionText: 'What does "debit" mean?', options: ['An increase in assets or a decrease in liabilities', 'A decrease in assets or an increase in liabilities', 'An increase in equity', 'A decrease in revenue'], correctAnswerIndex: 0 },
+        ]
+      }
+    ]
+  },
 ];

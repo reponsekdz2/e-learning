@@ -1,11 +1,15 @@
 import React, { useState, useMemo } from 'react';
-import { GameState, Question, Quiz, Subject } from './types';
+import { GameState, Quiz, Subject, ActiveView, SubjectCategory } from './types';
 import { subjects } from './data/quizzes';
 import SubjectSelectionScreen from './components/SubjectSelectionScreen';
 import QuizSelectionScreen from './components/QuizSelectionScreen';
 import QuizScreen from './components/QuizScreen';
 import EndScreen from './components/EndScreen';
 import PrizeScreen from './components/PrizeScreen';
+import Sidebar from './components/Sidebar';
+import Header from './components/Header';
+import ProfileScreen from './components/ProfileScreen';
+import TestsScreen from './components/TestsScreen';
 
 const App: React.FC = () => {
   const [gameState, setGameState] = useState<GameState>(GameState.SubjectSelection);
@@ -14,10 +18,18 @@ const App: React.FC = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [score, setScore] = useState(0);
 
+  const [activeView, setActiveView] = useState<ActiveView>(ActiveView.Quizzes);
+  const [subjectFilter, setSubjectFilter] = useState<SubjectCategory | 'All'>('All');
+
   const selectedSubject = useMemo(() => {
     if (!selectedSubjectId) return null;
     return subjects.find(s => s.id === selectedSubjectId) || null;
   }, [selectedSubjectId]);
+  
+  const filteredSubjects = useMemo(() => {
+    if (subjectFilter === 'All') return subjects;
+    return subjects.filter(subject => subject.category === subjectFilter);
+  }, [subjectFilter]);
 
   const handleSelectSubject = (subjectId: string) => {
     setSelectedSubjectId(subjectId);
@@ -61,17 +73,23 @@ const App: React.FC = () => {
      setSelectedSubjectId(null);
      setGameState(GameState.SubjectSelection);
   };
+  
+  const resetToHome = () => {
+    handleRestart(); // Resets quiz state
+    setActiveView(ActiveView.Quizzes); // Go back to quizzes view
+    setSubjectFilter('All');
+  }
 
-  const renderContent = () => {
+  const renderQuizContent = () => {
     switch (gameState) {
       case GameState.SubjectSelection:
-        return <SubjectSelectionScreen subjects={subjects} onSelectSubject={handleSelectSubject} />;
+        return <SubjectSelectionScreen subjects={filteredSubjects} onSelectSubject={handleSelectSubject} />;
       
       case GameState.QuizSelection:
         if (selectedSubject) {
           return <QuizSelectionScreen subject={selectedSubject} onSelectQuiz={handleSelectQuiz} onBack={handleBackToSubjects} />;
         }
-        return null; // Or some error/fallback UI
+        return null; 
 
       case GameState.Playing:
         if (currentQuiz) {
@@ -100,21 +118,39 @@ const App: React.FC = () => {
           return null;
 
       case GameState.Prize:
-        return <PrizeScreen onRestart={handleRestart} />;
+        return <PrizeScreen onRestart={resetToHome} />;
 
       default:
         return null;
     }
   };
+  
+  const renderActiveView = () => {
+    switch(activeView) {
+      case ActiveView.Quizzes:
+        return renderQuizContent();
+      case ActiveView.Profile:
+        return <ProfileScreen />;
+      case ActiveView.Tests:
+        return <TestsScreen />;
+      default:
+        return null;
+    }
+  }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center p-4">
-      <main className="w-full max-w-4xl">
-        {renderContent()}
-      </main>
-      <footer className="text-gray-500 text-sm mt-8">
-        Quiz Hub Platform
-      </footer>
+    <div className="min-h-screen bg-gray-900 text-white flex">
+      <Sidebar activeView={activeView} setActiveView={setActiveView} />
+      <div className="flex-1 flex flex-col">
+        {activeView === ActiveView.Quizzes && gameState === GameState.SubjectSelection && (
+          <Header activeFilter={subjectFilter} setFilter={setSubjectFilter} />
+        )}
+        <main className="flex-1 flex items-center justify-center p-4">
+          <div className="w-full max-w-4xl">
+            {renderActiveView()}
+          </div>
+        </main>
+      </div>
     </div>
   );
 };

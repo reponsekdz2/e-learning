@@ -1,13 +1,7 @@
-
 export interface Question {
   questionText: string;
   options: string[];
   correctAnswerIndex: number;
-}
-
-// Fix: Add QuizData interface for typing Gemini API response.
-export interface QuizData {
-  questions: Question[];
 }
 
 export interface Quiz {
@@ -16,9 +10,12 @@ export interface Quiz {
   questions: Question[];
 }
 
+export type SubjectCategory = 'General' | 'TVET';
+
 export interface Subject {
   id: string;
   name: string;
+  category: SubjectCategory;
   quizzes: Quiz[];
 }
 
@@ -28,4 +25,10 @@ export enum GameState {
   Playing = 'playing',
   Finished = 'finished',
   Prize = 'prize',
+}
+
+export enum ActiveView {
+  Quizzes,
+  Profile,
+  Tests,
 }
