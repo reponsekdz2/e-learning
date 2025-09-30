@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
+import StartScreen from './components/StartScreen';
 import SubjectSelectionScreen from './components/SubjectSelectionScreen';
 import QuizSelectionScreen from './components/QuizSelectionScreen';
 import QuizScreen from './components/QuizScreen';
@@ -110,6 +111,7 @@ const App: React.FC = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [activeView, setActiveView] = useStickyState<ActiveView>(ActiveView.Quizzes, 'activeView');
     const [subjectFilter, setSubjectFilter] = useState<'All' | 'General' | 'TVET'>('All');
+    const [searchTerm, setSearchTerm] = useState('');
     
     // Data state
     const [subjects, setSubjects] = useStickyState<Subject[]>(() => processSubjects(initialSubjects), 'subjects');
@@ -136,7 +138,7 @@ const App: React.FC = () => {
     const [lastUnlockedAchievement, setLastUnlockedAchievement] = useState<Achievement | null>(null);
 
     // Quiz/Test State
-    const [gameState, setGameState] = useState<'selecting-subject' | 'selecting-quiz' | 'in-quiz' | 'quiz-ended' | 'prize-claimed'>('selecting-subject');
+    const [gameState, setGameState] = useState<'start' | 'selecting-subject' | 'selecting-quiz' | 'in-quiz' | 'quiz-ended' | 'prize-claimed'>('start');
     const [currentSubject, setCurrentSubject] = useState<Subject | null>(null);
     const [currentQuiz, setCurrentQuiz] = useState<Quiz | null>(null);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -148,6 +150,10 @@ const App: React.FC = () => {
     }, [challenges]);
     
     // Handlers
+    const handleStartApp = () => {
+        setGameState('selecting-subject');
+    };
+
     const handleSelectSubject = (subjectId: string) => {
         const subject = subjects.find(s => s.id === subjectId);
         if (subject) {
@@ -280,8 +286,15 @@ const App: React.FC = () => {
             case ActiveView.Quizzes:
             default:
                 switch(gameState) {
+                    case 'start':
+                        return <StartScreen onStart={handleStartApp} />;
                     case 'selecting-subject':
-                        return <SubjectSelectionScreen subjects={subjects} onSelectSubject={handleSelectSubject} subjectFilter={subjectFilter} />;
+                        const filteredSubjects = subjects.filter(subject => {
+                            const categoryMatch = subjectFilter === 'All' || subject.category === subjectFilter;
+                            const searchMatch = searchTerm ? subject.name.toLowerCase().includes(searchTerm.toLowerCase()) : true;
+                            return categoryMatch && searchMatch;
+                        });
+                        return <SubjectSelectionScreen subjects={filteredSubjects} onSelectSubject={handleSelectSubject} subjectFilter={subjectFilter} searchTerm={searchTerm} />;
                     case 'selecting-quiz':
                         if (currentSubject) {
                             return <QuizSelectionScreen subject={currentSubject} onSelectQuiz={startQuiz} onBack={() => setGameState('selecting-subject')} onUpdateSubject={handleUpdateSubject} />;
@@ -329,6 +342,8 @@ const App: React.FC = () => {
                     activeView={activeView}
                     subjectFilter={subjectFilter}
                     setSubjectFilter={setSubjectFilter}
+                    searchTerm={searchTerm}
+                    setSearchTerm={setSearchTerm}
                 />
                 <main className="flex-1 p-4 md:p-6 lg:p-8 overflow-y-auto">
                     {renderActiveView()}
