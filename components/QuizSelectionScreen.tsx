@@ -1,4 +1,5 @@
 
+
 import React, { useState } from 'react';
 import { Subject, Quiz } from '../types';
 import { generateQuiz } from '../services/geminiService';
@@ -26,20 +27,13 @@ const QuizSelectionScreen: React.FC<QuizSelectionScreenProps> = ({ subject, onSe
     try {
       const newQuiz = await generateQuiz(subject.name, topic);
       if (newQuiz) {
-        // Add unique IDs to questions
-        const quizWithIds: Quiz = {
-          ...newQuiz,
-          questions: newQuiz.questions.map((q, index) => ({
-            ...q,
-            id: `${newQuiz.id}-q-${index}`
-          }))
-        };
+        // Fix: The service now returns the quiz with question IDs, so no need to add them here.
         const updatedSubject = {
           ...subject,
-          quizzes: [...subject.quizzes, quizWithIds],
+          quizzes: [...subject.quizzes, newQuiz],
         };
         onUpdateSubject(updatedSubject);
-        onSelectQuiz(quizWithIds);
+        onSelectQuiz(newQuiz);
       } else {
         throw new Error('Failed to generate quiz.');
       }

@@ -1,100 +1,103 @@
+// Fix: Implemented Gemini service functions and added necessary imports.
 import { GoogleGenAI, Type } from "@google/genai";
-import { Question, Quiz } from '../types';
+import { Quiz, Question } from '../types';
 
-if (!process.env.API_KEY) {
-  console.error("API Key not found. Please set the API_KEY environment variable.");
-}
+// The guidelines state to assume API_KEY is pre-configured and valid.
+const ai = new GoogleGenAI({ apiKey: process.env.API_KEY! });
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+export const getExplanation = async (question: Question): Promise<string> => {
+  const prompt = `Explain why the correct answer to the following multiple-choice question is "${question.options[question.correctAnswerIndex]}".
+  
+  Question: ${question.questionText}
+  Options:
+  - ${question.options.join('\n- ')}
+  
+  Correct Answer: ${question.options[question.correctAnswerIndex]}
+  
+  Provide a clear and concise explanation suitable for a student.`;
 
-const quizGenerationSchema = {
-  type: Type.OBJECT,
-  properties: {
-    questions: {
-      type: Type.ARRAY,
-      description: "An array of 5 quiz questions.",
-      items: {
-        type: Type.OBJECT,
-        properties: {
-          questionText: {
-            type: Type.STRING,
-            description: "The text of the question."
-          },
-          options: {
-            type: Type.ARRAY,
-            description: "An array of exactly 4 strings representing the possible answers.",
-            items: {
-              type: Type.STRING,
-            }
-          },
-          correctAnswerIndex: {
-            type: Type.NUMBER,
-            description: "The 0-based index of the correct answer in the 'options' array."
-          }
-        },
-        required: ["questionText", "options", "correctAnswerIndex"]
-      }
-    }
-  },
-  required: ["questions"]
+  try {
+    const response = await ai.models.generateContent({
+        model: 'gemini-2.5-flash',
+        contents: prompt,
+    });
+    return response.text;
+  } catch (error) {
+    console.error("Error fetching explanation from Gemini:", error);
+    return "Sorry, I couldn't fetch an explanation at this time. Please try again later.";
+  }
 };
 
 
-export const generateQuiz = async (subjectName: string, topic: string): Promise<Quiz | null> => {
-  try {
-    const prompt = `Generate a 5-question multiple-choice quiz about '${topic}' within the subject of '${subjectName}'. Each question must have exactly 4 options. Ensure the questions are challenging and suitable for a vocational training student. Return the response as a JSON object that strictly follows the provided schema. Do not include markdown formatting like \`\`\`json.`;
+export const generateQuiz = async (subject: string, topic: string): Promise<Quiz | null> => {
+  const prompt = `Create a 5-question multiple-choice quiz about "${topic}" in the subject of "${subject}".
+  Each question should have 4 options. One of the options must be the correct answer.
+  The questions should be suitable for a high school or vocational student.
+  Format the output as a JSON object that matches this structure:
+  {
+    "title": "Quiz Title about the topic",
+    "questions": [
+      {
+        "questionText": "The text of the question?",
+        "options": ["Option A", "Option B", "Option C", "Option D"],
+        "correctAnswerIndex": 0
+      }
+    ]
+  }
+  Do not include any text or markdown formatting outside of the JSON object.`;
 
+  try {
     const response = await ai.models.generateContent({
       model: "gemini-2.5-flash",
       contents: prompt,
       config: {
         responseMimeType: "application/json",
-        responseSchema: quizGenerationSchema,
+        responseSchema: {
+          type: Type.OBJECT,
+          properties: {
+            title: { type: Type.STRING },
+            questions: {
+              type: Type.ARRAY,
+              items: {
+                type: Type.OBJECT,
+                properties: {
+                  questionText: { type: Type.STRING },
+                  options: {
+                    type: Type.ARRAY,
+                    items: { type: Type.STRING }
+                  },
+                  correctAnswerIndex: { type: Type.INTEGER }
+                },
+                required: ["questionText", "options", "correctAnswerIndex"]
+              }
+            }
+          },
+          required: ["title", "questions"]
+        }
       },
     });
-    
-    const jsonStr = response.text.trim();
-    const cleanedJsonStr = jsonStr.replace(/^```json\s*|```$/g, '');
-    const generatedData = JSON.parse(cleanedJsonStr) as { questions: Question[] };
 
-    if (!generatedData.questions || generatedData.questions.length === 0) {
-      throw new Error("AI failed to generate questions.");
+    const jsonText = response.text.trim();
+    const quizData = JSON.parse(jsonText);
+
+    // Basic validation
+    if (!quizData.title || !Array.isArray(quizData.questions) || quizData.questions.length === 0) {
+        throw new Error("Invalid quiz format received from API");
     }
     
-    const newQuiz: Quiz = {
-      id: `ai-${Date.now()}`,
-      title: `${topic} (AI Generated)`,
-      questions: generatedData.questions,
+    const newQuizId = `gemini-gen-${Date.now()}`;
+
+    return {
+      ...quizData,
+      id: newQuizId,
+      questions: quizData.questions.map((q: Omit<Question, 'id'>, index: number) => ({
+        ...q,
+        id: `${newQuizId}-q-${index}`
+      }))
     };
 
-    return newQuiz;
-
   } catch (error) {
-    console.error("Error generating quiz:", error);
+    console.error("Error generating quiz from Gemini:", error);
     return null;
-  }
-};
-
-export const getExplanation = async (question: Question): Promise<string> => {
-  try {
-      const correctAnswerText = question.options[question.correctAnswerIndex];
-      const prompt = `Please provide a concise and easy-to-understand explanation for the following quiz question. Explain why the correct answer is "${correctAnswerText}" and briefly mention why the other options are incorrect.
-      
-      Question: "${question.questionText}"
-      Options: ${question.options.join(', ')}
-      Correct Answer: "${correctAnswerText}"
-      
-      Keep the explanation to 2-3 sentences.`;
-
-      const response = await ai.models.generateContent({
-        model: "gemini-2.5-flash",
-        contents: prompt,
-      });
-
-      return response.text;
-
-  } catch (error) {
-      console.error("Error getting explanation:", error);
-      return "Sorry, I couldn't generate an explanation at this time. Please check your connection and API key.";
   }
 };
